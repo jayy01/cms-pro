@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+    <!--配置Realm-->
+    <bean id="passwordCaptchaRealm" class="com.cms.portal.security.realm.UsernamePasswordCaptchaRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!--配置加密方式-->
+                <property name="hashAlgorithmName" value="SHA-256"/>
+                <!--散列迭代此时-->
+                <property name="hashIterations" value="1024"/>
+                <!--表示是否存储散列后的密码为16进制 需要和生成密码时的一样 默认base64-->
+                <!--需要注意此处算法需要和生成密码的算法一致-->
+                <property name="storedCredentialsHexEncoded" value="true"/>
+            </bean>
+        </property>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
+    </bean>
+
+    <!--开启sprig缓存区别于shiro缓存-->
+    <cache:annotation-driven cache-manager="springCacheManager"/>
+    <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+        <property name="shared" value="true"/>
+    </bean>
+
+    <!--缓存管理器-->
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <!--安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="passwordCaptchaRealm"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
+    </bean>
+
+    <!--声明周期管理-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!--自定义auth登录认证拦截器-->
+    <bean id="cmsAuthenticationfilter" class="com.cms.portal.security.filter.CmsAuthenticationfilter"/>
+
+    <!--自定义user用户已登录拦截器-->
+    <bean id="cmsUserFilter" class="com.cms.portal.security.filter.CmsUserFilter">
+        <property name="adminLoginUrl" value="/admin/cms/login.do"/>
+        <property name="adminPrefix" value="/admin/cms"/>
+    </bean>
+
+    <!--shiro拦截器-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--注入安全管理器-->
+        <property name="securityManager" ref="securityManager"/>
+        <!--登录链接-->
+        <property name="loginUrl" value="login.do"/>
+        <!--登录成功的链接-->
+        <property name="successUrl" value="/"/>
+        <!--自定义filter-->
+        <property name="filters">
+            <map>
+                <entry key="authc" value-ref="cmsAuthenticationfilter"/>
+                <entry key="user" value-ref="cmsUserFilter"/>
+            </map>
+        </property>
+        <!--过滤链定义anon 匿名 authc登录认证  user用户已登录 logout 退出filter-->
+        <property name="filterChainDefinitions">
+            <value>
+                /admin/cms/captcha.do=anon
+                /admin/cms/error.do=anon
+                /admon/cms/logout.do=logout
+                /admin/cms/login.do=authc
+                /admin/cms/**=user
+            </value>
+        </property>
+    </bean>
+</beans>

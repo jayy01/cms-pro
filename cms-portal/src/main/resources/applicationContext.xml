@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--报扫描 use-default-filters 属性的默认值为true 即使用默认的Filter进行包扫描
+    默认的Filter对标有@Service @Controller @Repository的注解类进行扫描-->
+    <context:component-scan base-package="com.cms" use-default-filters="true">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!--读取配置文件 -->
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="2"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:datasource.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding" value="utf-8"/>
+    </bean>
+    <!--引入其他配置文件-->
+    <import resource="classpath:applicationContext-datasource.xml"/>
+    <import resource="classpath:servlet-admin.xml"/>
+    <import resource="classpath:applicationContext-redis.xml"/>
+    <import resource="classpath:applicationContext-configuration.xml"/>
+    <import resource="classpath:applicationContext-shiro.xml"/>
+</beans>

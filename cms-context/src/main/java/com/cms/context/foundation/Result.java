@@ -28,6 +28,15 @@ public class Result<T extends Serializable> implements Serializable {
     }
 
     /**
+     * 成功返回 默认返回状态码与信息
+     * @param <W>
+     * @return
+     */
+    public static <W extends Serializable> Result<W> success(String info){
+        return new Result<>(200,info);
+    }
+
+    /**
      * 成功返回  默认返回状态码与信息  传入返回数据
      * @param data
      * @param <W>

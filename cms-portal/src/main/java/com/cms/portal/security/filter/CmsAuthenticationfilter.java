@@ -6,10 +6,7 @@ import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsShiro;
 import com.cms.service.api.CommonService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -72,6 +69,8 @@ public class CmsAuthenticationfilter extends FormAuthenticationFilter {
             response.getWriter().write(JSON.toJSONString(Result.success()));
         } catch (UnknownAccountException | IncorrectCredentialsException e) {
             response.getWriter().write(JSON.toJSONString(Result.failed("用户名密码错误，请重新输入！")));
+        } catch (DisabledAccountException e){
+            response.getWriter().write(JSON.toJSONString(Result.failed(e.getMessage())));
         }
         return false;
     }

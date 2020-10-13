@@ -1,5 +1,6 @@
 package com.cms.dao.entity;
 
+import com.cms.core.foundation.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,8 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-public class CmsUserPrimaryEntity implements Serializable {
+public class CmsUserPrimaryEntity extends BaseEntity<Integer> {
 
-    private LocalDate createTime;
-    private LocalDate updateTime;
-    private Integer id;
     private String username;
     private String password;
     private String salt;

@@ -9,10 +9,7 @@
         username,
         password,
         salt,
-        email,
-        login_count,
-        status,
-        deleted
+        email
     </sql>
     
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserPrimaryEntity">
@@ -21,14 +18,11 @@
         <result property="password" column="password"/>
         <result property="salt" column="salt"/>
         <result property="email" column="email"/>
-        <result property="loginCount" column="login_count"/>
-        <result property="status" column="status"/>
-        <result property="deleted" column="deleted"/>
 
     </resultMap>
     
-    <select id="getByUsername" resultMap="baseResultMap">
-    select <include refid="baseColumn"/> from cms_user_primary where username = #{username}
+    <select id="selectById" resultMap="baseResultMap">
+    select <include refid="baseColumn"/> from cms_user_primary where id = #{id}
 
     </select>
 

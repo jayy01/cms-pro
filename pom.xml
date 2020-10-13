@@ -166,26 +166,21 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.30</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.1.0.Final</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-parent</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-        <!--<dependency>
-            <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
-            <version>2.6.9</version>
+            <version>1.2.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>2.6.9</version>
-        </dependency>-->
+            <version>1.2.0.Final</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>

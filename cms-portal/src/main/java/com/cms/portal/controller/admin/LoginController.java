@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * @Author jayy
@@ -27,7 +23,7 @@ public class LoginController {
     CommonService commonService;
 
     @GetMapping("captcha.do")
-    public void doCaptcha(HttpServletResponse httpServletResponse){
+    public void doCaptcha(HttpServletResponse httpServletResponse) {
         commonService.imageCaptcha();
     }
 }

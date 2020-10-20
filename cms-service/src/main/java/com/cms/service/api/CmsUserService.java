@@ -1,5 +1,6 @@
 package com.cms.service.api;
 
+import com.cms.core.foundation.BaseService;
 import com.cms.service.dto.CmsUserDto;
 import com.cms.service.dto.CmsUserPrimaryDto;
 
@@ -9,7 +10,7 @@ import com.cms.service.dto.CmsUserPrimaryDto;
  * @Date 2020/9/30 9:30
  * @Version 1.0
  */
-public interface CmsUserService {
+public interface CmsUserService extends BaseService<CmsUserDto,Integer> {
     /**
      * 根据用户名称查询
      * @param username

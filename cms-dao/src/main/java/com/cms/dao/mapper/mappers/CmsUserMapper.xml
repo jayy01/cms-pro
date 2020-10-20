@@ -15,6 +15,24 @@
         <result property="username" column="username"/>
         <result property="status" column="status"/>
     </resultMap>
+
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="sessionId!=null and sessionId!=''">
+            session_id = #{sessionId},
+        </if>
+        <if test="lastLoginIp!=null and lastLoginIp!=''">
+            last_login_ip = #{lastLoginIp},
+        </if>
+    </sql>
+    
+    <update id="update">
+        update cms_user
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"></include>
+        </trim>
+        where id = #{id}
+    </update>
     
     <select id="getByUsername" resultMap="baseResultMap">
     select <include refid="baseColumn"/> from cms_user_primary where username = #{username} and deleted = 1

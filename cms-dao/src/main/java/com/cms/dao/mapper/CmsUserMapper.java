@@ -1,5 +1,6 @@
 package com.cms.dao.mapper;
 
+import com.cms.core.foundation.BaseMapper;
 import com.cms.dao.entity.CmsUserEntity;
 import com.cms.dao.entity.CmsUserPrimaryEntity;
 
@@ -9,7 +10,7 @@ import com.cms.dao.entity.CmsUserPrimaryEntity;
  * @Date 2020/9/29 16:51
  * @Version 1.0
  */
-public interface CmsUserMapper {
+public interface CmsUserMapper extends BaseMapper<CmsUserEntity,Integer> {
     /**
      * 根据名称查询
      * @param username

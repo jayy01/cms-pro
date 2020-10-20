@@ -23,6 +23,16 @@ public class CmsUserPrimaryServiceImpl implements CmsUserPrimartService {
 
 
     @Override
+    public void save(CmsUserPrimaryDto dto) {
+
+    }
+
+    @Override
+    public void update(CmsUserPrimaryDto dto) {
+
+    }
+
+    @Override
     public CmsUserPrimaryDto getById(Integer id) {
         return CmsUserPrimaryConverter.CONVERTER.entutyToDto(cmsUserPrimaryMapper.selectById(id));
     }

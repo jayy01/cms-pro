@@ -22,6 +22,11 @@ public class LoginController {
     @Autowired
     CommonService commonService;
 
+    @GetMapping("login.do")
+    public String toLogin(){
+        return "/admin/login";
+    }
+
     @GetMapping("captcha.do")
     public void doCaptcha(HttpServletResponse httpServletResponse) {
         commonService.imageCaptcha();

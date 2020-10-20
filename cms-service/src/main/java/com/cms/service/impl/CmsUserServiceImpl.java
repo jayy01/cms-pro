@@ -32,4 +32,19 @@ public class CmsUserServiceImpl implements CmsUserService {
 
         return cmsUserDto;
     }
+
+    @Override
+    public void save(CmsUserDto dto) {
+
+    }
+
+    @Override
+    public void update(CmsUserDto dto) {
+        cmsUserMapper.update(CmsUserConverter.CONVERTER.dtoToEntity(dto));
+    }
+
+    @Override
+    public CmsUserDto getById(Integer id) {
+        return null;
+    }
 }

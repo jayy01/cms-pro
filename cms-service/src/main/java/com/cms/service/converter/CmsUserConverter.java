@@ -16,7 +16,7 @@ import org.mapstruct.factory.Mappers;
 public interface CmsUserConverter {
     CmsUserConverter CONVERTER = Mappers.getMapper(CmsUserConverter.class);
 
-    //CmsUserEntity dtoToEntity(CmsUserDto dto);
+    CmsUserEntity dtoToEntity(CmsUserDto dto);
 
     CmsUserDto entityToDto(CmsUserEntity entity);
 }

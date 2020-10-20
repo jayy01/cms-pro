@@ -2,12 +2,13 @@ package com.cms.context.foundation;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.junit.Test;
 
 import java.io.Serializable;
 
 /**
  * @Author jayy
- * @Description
+ * @Description 请求结果返回
  * @Date 2020/9/29 15:22
  * @Version 1.0
  */

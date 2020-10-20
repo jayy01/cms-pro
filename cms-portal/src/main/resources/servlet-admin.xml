@@ -9,6 +9,6 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <!--配置映射器与适配器-->
-    <mvc:annotation-driven/>
+    <!--引入公共个性化操作-->
+    <import resource="classpath:servlet-common.xml"/>
 </beans>

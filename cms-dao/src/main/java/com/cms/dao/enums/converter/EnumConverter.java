@@ -20,6 +20,15 @@ public class EnumConverter {
     public static UserStatusEnum toUserStatusEnum (int status){
         return (UserStatusEnum)converter(UserStatusEnum.values(), status);
     }
+
+    /**
+     * 将dto中的枚举转换为entity中的Integer
+     * @param <E>
+     * @return
+     */
+    public static<E extends BaseEnum> Integer enumToInteger(E enumeration){
+        return (enumeration!=null)?enumeration.getOrdinal():null;
+    }
     /**
      * 通用枚举转换器 统一循环枚举比对
      * @param enums

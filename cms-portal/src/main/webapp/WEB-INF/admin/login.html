@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<!--解决idea thymeleaf 表达式模板报红波浪线-->
-<!--suppress ALL -->
 <html>
 <head>
     <meta charset="UTF-8">
@@ -18,21 +16,20 @@
 </head>
 <body>
     <div class="main">
-        <form class="layui-form layui-form-pane">
+        <form class="layui-form layui-form-pane" method="post" action="">
             <div class="layui-form-item">
                 <h1 style="text-align: center">CMS系统登陆</h1>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">账号<i class="layui-icon layui-icon-username"></i></label>
                 <div class="layui-input-block">
-                    <input type="text" id="username" name="username" placeholder="请输入账号" class="layui-input">
+                    <input type="text" id="username" name="username" placeholder="请输入账号" lay-verify="required" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码<i class="layui-icon layui-icon-password"></i></label>
                 <div class="layui-input-block">
-                    <!-- 为了方便测试，密码类型设置成text，发布生产前记得改回来 -->
-                    <input type="text" id="password" name="password" placeholder="请输入密码" class="layui-input">
+                    <input type="password" id="password" name="password" placeholder="请输入密码" lay-verify="required|password" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -43,42 +40,36 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <!-- 我直接写死，需要开启选择请自行调整前端代码 -->
-                <input id="remember-me" type="checkbox" name="remember-me" value="true">
-            </div>
-            <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <a class="layui-btn" style="margin-left: -50px;margin-right: 50px;" onclick="formSubmit()">登录</a>
+                    <button type="button" class="layui-btn" lay-submit lay-filter="login" style="margin-left: -50px;margin-right: 50px;">登录</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
     </div>
 </body>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script src="${basePath}/admin/jquery/jquery.js"></script>
 <script>
-    function formSubmit() {
-        $.post(ctx + "/login", {
-            "username": $("#username").val(),
-            "password": $("#password").val(),
-            "captcha": $("#captcha").val(),
-            "remember-me": $("#remember-me").val(),
-        }, function (data) {
-            layui.use('layer', function () {
-                var layer = layui.layer;
-                if (data.code == 300) {
-                    layer.msg(data.msg, {icon: 1,time: 1000}, function () {
-                        window.location.href = ctx + data.url;
-                    });
-                } else {
-                    layer.msg(data.msg, {icon: 2,time: 2000}, function () {});
-                }
-            });
-        })
-    }
 
-    function changeCode() {
-        var img = document.getElementById("captchaImg");
-        img.src = ctx + "/getVerifyCodeImage?time=" + new Date().getTime();
+    LayUtil.form.init(function (inner,form) {
+        inner.verify({
+            //password: [/^[0-4]*$/,'请填入0-4的分数'] 自定义校验
+        });
+        inner.submit(function (data) {
+            core.throttle(submit,data.field);
+        },'login')
+    });
+    function submit(data) {
+        core.http({
+            url:"${adminPath}/login.do",
+            data:data
+        },function (res) {
+            if(res.restCode === CONSTANT.HTTP.SUCCESS){
+                location.href="${adminPath}/index.do";
+            }
+        });
     }
 </script>
 </html>

@@ -76,6 +76,18 @@
             <artifactId>mybatis</artifactId>
             <version>3.5.4</version>
         </dependency>
+        <!--mybatis 缓存 mybatis-ehcache -->
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <!--参数校验-->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.18.Final</version>
+        </dependency>
         <!--mybatis支持jsr310标准-->
         <!--<dependency>
             <groupId>org.mybatis</groupId>
@@ -142,11 +154,12 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.2.3</version>
         </dependency>
-        <dependency>
+        <!--使用logback 注释log4j-->
+        <!--<dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
-        </dependency>
+        </dependency>-->
         <!--lombok插件-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -175,6 +188,12 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>1.2.0.Final</version>
+        </dependency>
+        <!--引入logback-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <!--<dependency>
             <groupId>org.springframework</groupId>

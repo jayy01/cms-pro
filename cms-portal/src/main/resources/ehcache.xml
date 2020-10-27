@@ -30,11 +30,14 @@
       LFU， Less Frequently Used，就是上面例子中使用的策略，直白一点就是讲一直以来最少被使用的。如上面所讲，缓存的元素有一个hit属性，hit值最小的将会被清出缓存。
       LRU，Least Recently Used，最近最少使用的，缓存的元素有一个时间戳，当缓存容量满了，而又需要腾出地方来缓存新的元素的时候，那么现有缓存元素中时间戳离当前时间最远的元素将被清出缓存。
    -->
+    <!--eternal 为false时 下面两个属性生效-->
+    <!--timeToLiveSeconds 对象放入缓存开始 当缓存中的事件超过timeToLiveSeconds，这个对象过期-->
+    <!--timeToIdleSeconds 对象第一次访问开始 当空闲时间超过timeToIdleSeconds 这个对象过期-->
     <defaultCache
             eternal="false"
             maxElementsInMemory="10000"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
+            timeToIdleSeconds="3600"
+            timeToLiveSeconds="36000"
             overflowToDisk="true"
             maxElementsOnDisk="1000000"
             diskPersistent="false"

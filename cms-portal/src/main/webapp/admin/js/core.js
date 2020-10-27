@@ -51,7 +51,7 @@ let core = {
                 core.prompt.msg("系统异常，请重试！",{icon: 5,time:1000},null);
             }
         }
-        Object.assign(opt,option,options);// 自己传进来的参数覆盖默认的 赋值于一个新的对象 es6语法
+        Object.assign(opt,options,option);// 自己传进来的参数覆盖默认的 赋值于一个新的对象 es6语法
         this.cancel = $.ajax(opt);
     },
     //提示相关

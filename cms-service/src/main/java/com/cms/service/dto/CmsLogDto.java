@@ -38,7 +38,6 @@ public class CmsLogDto extends BaseDto<Integer> {
         cmsLogDto.setUrl(url);
         cmsLogDto.setUserId(userId);
         cmsLogDto.setUsername(username);
-        cmsLogDto.setCreateTime(LocalDateTime.now());
         return cmsLogDto;
     }
 

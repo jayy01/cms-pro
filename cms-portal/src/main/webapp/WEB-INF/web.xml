@@ -24,6 +24,19 @@
         <filter-name>shiroFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <!--springmvc编码设置为utf-8-->
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 
     <!--web容器与spring容器整合-->
@@ -33,6 +46,20 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+
+    <!--springmvc前台servlet-->
+    <servlet>
+        <servlet-name>fontServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:servlet-font.xml</param-value>
+        </init-param>
+        <!--servlet配置 容器启动时启动这个servlet-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!--springmvc后台servlet-->
     <servlet>
         <servlet-name>adminServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -44,11 +71,22 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
 
+    <servlet-mapping>
+        <servlet-name>fontServlet</servlet-name>
+        <url-pattern>*.shtml</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fontServlet</servlet-name>
+        <url-pattern>*.jspx</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>adminServlet</servlet-name>
         <url-pattern>/admin/cms/*</url-pattern>
     </servlet-mapping>
+
+
+
 
 
 </web-app>

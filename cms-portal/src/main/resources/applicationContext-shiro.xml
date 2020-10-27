@@ -75,6 +75,8 @@
             <value>
                 /admin/cms/captcha.do=anon
                 /admin/cms/error.do=anon
+                **.shtml=anon
+                **.jspx=anon
                 /admon/cms/logout.do=logout
                 /admin/cms/login.do=authc
                 /admin/cms/**=user

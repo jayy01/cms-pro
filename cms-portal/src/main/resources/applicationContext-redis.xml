@@ -19,7 +19,7 @@
         <property name="poolConfig" ref="jedisPoolConfig"/>
         <property name="usePool" value="true"/>
         <property name="hostName" value="127.0.0.1"/>
-        <!--<property name="password" value=""/>-->
+        <property name="password" value="1234"/>
         <property name="database" value="0"/>
     </bean>
 

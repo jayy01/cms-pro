@@ -1,0 +1,40 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <input type="hidden" name="id" value="${data.id!""}">
+        <@form.item>
+            <@form.aline lable="站点名称" >
+                <input type="text" name="siteName" class="layui-input" value="${data.siteName!""}">
+            </@form.aline>
+        </@form.item>
+        <@form.item>
+            <@form.aline lable="关键字" >
+                <input type="text" name="keywords" class="layui-input" value="${data.keywords!""}">
+            </@form.aline>
+        </@form.item>
+        <@form.item>
+            <@form.aline lable="站点描述">
+                <textarea name="description"  class="layui-textarea">${data.description!""}</textarea>
+            </@form.aline>
+        </@form.item>
+        <@form.item>
+            <@form.submit></@form.submit>
+        </@form.item>
+    </@form.form>
+</@main.layout>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script>
+    LayUtil.form.init(function (inner, form) {
+        inner.submit(function (data) {
+            core.http({
+                url:"${adminPath}/site/edit.do",
+                data:data.field
+            })
+        })
+    });
+
+</script>
+

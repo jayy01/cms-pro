@@ -21,6 +21,8 @@
         </property>
         <property name="fileEncoding" value="utf-8"/>
     </bean>
+
+
     <!--引入其他配置文件-->
     <import resource="classpath:applicationContext-datasource.xml"/>
     <import resource="classpath:servlet-admin.xml"/>

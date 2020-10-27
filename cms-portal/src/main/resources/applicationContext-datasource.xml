@@ -65,6 +65,11 @@
                 <property name="lazyLoadTriggerMethods" value=""/>
             </bean>
         </property>
+        <property name="plugins">
+            <array>
+                <bean class="com.cms.context.intercepter.BaseIntercepter"/>
+            </array>
+        </property>
     </bean>
 
     <!--mapper扫描接口-->
@@ -87,4 +92,7 @@
         <property name="slowSqlMillis" value="10000"/>
         <property name="logSlowSql" value="true"/>
     </bean>
+
+
+
 </beans>

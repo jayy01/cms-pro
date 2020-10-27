@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="false" scan="true" scanPeriod="60 seconds"  >
+    <!-- 该appender的功能是将记录信息以特定格式写到控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoding>UTF-8</encoding>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0} -%msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+    <!-- 该appender的功能是将记录信息以特定格式写到文件,当文件达到20MB时，创建以特定规则新的 文件，之后的记录会写到新文件-->
+    <appender name="cms" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>D:/cms/cms.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>D:/cms/cms.log%d{yyyy-mm-dd}.zip</fileNamePattern>
+            <append>true</append>
+            <maxHistory>20</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t]  %m%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>D:/cms/cms-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>D:/cms/cms-error.log%d{yyyy-mm-dd}.zip</fileNamePattern>
+            <append>true</append>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t]  %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <logger name="com.cms" addityvity="false" level="INFO">
+        <appender-ref ref="cms"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <!--MyBatis日志-->
+    <logger name="com.cms.dao.mapper" level="DEBUG"/>
+</configuration>

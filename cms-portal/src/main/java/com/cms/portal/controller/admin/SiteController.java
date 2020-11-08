@@ -2,6 +2,8 @@ package com.cms.portal.controller.admin;
 
 import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsTemplate;
+import com.cms.core.annotation.DoLog;
+import com.cms.core.annotation.DoValid;
 import com.cms.service.api.CmsSiteService;
 import com.cms.service.dto.CmsSiteDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,9 @@ public class SiteController {
 
     @PostMapping("edit.do")
     @ResponseBody
+    @DoValid
+    @DoLog(content = "站点修改")
     public Result doEdit(@Valid CmsSiteDto cmsSiteDto, BindingResult bindingResult) {
-
         cmsSiteService.update(cmsSiteDto);
         return Result.success();
     }

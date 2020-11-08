@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.mapper.CmsPermissionMapper">
+    <sql id="baseColumn">
+        id,
+        parent_id,
+        type,
+        icon,
+        name,
+        action,
+        url,
+        priority
+    </sql>
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsPermissionEntity">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="type" column="type"/>
+        <result property="icon" column="icon"/>
+        <result property="name" column="name"/>
+        <result property="action" column="action"/>
+        <result property="url" column="url"/>
+        <result property="priority" column="priority"/>
+    </resultMap>
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"></include>
+        from cms_permission
+        where id=#{id}
+    </select>
+
+    <select id="selectAll" useCache="true" resultMap="baseResultMap" >
+        select <include refid="baseColumn"></include>
+        from cms_permission order by parent_id asc
+    </select>
+
+    <select id="selectByParentId" useCache="true" resultMap="baseResultMap">
+        select <include refid="baseColumn"></include>
+        from cms_permission where parent_id = #{id}
+    </select>
+
+    <insert id="save">
+        insert into cms_permission(
+        create_time,
+        parent_id,
+        type,
+        icon,
+        name,
+        url,
+        action,
+        priority
+        ) values (
+        #{createTime},
+        #{parentId},
+        #{type},
+        #{icon},
+        #{name},
+        #{url},
+        #{action},
+        #{priority})
+    </insert>
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="parentId!=null and parentId!=''">
+            parent_id = #{parentId},
+        </if>
+        <if test="type != null and type != ''">
+            type = #{type},
+        </if>
+        <if test="icon!=null and icon!=''">
+            icon = #{icon},
+        </if>
+        <if test="name!=null and name!=''">
+            name = #{name},
+        </if>
+        <if test="action!=null and action!=''">
+            action = #{action},
+        </if>
+        <if test="url!=null and url!=''">
+            url = #{url},
+        </if>
+        <if test="priority!=null">
+            priority = #{priority},
+        </if>
+    </sql>
+    <update id="update">
+        update cms_permission
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"></include>
+        </trim>
+        where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from cms_permission where id = #{id}
+    </delete>
+</mapper>

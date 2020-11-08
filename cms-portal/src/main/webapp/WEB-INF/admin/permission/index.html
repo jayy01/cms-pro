@@ -1,0 +1,47 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <table id="treeTable" class="layui-table" lay-filter="treeTable"></table>
+    </@form.form>
+</@main.layout>
+<!-- 操作列 -->
+<script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" href="${adminPath}/permission/add.do?parentId={{d.id}}">添加</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href="${adminPath}/permission/edit.do?id={{d.id}}">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<!-- 操作列 -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-normal layui-bg-blue" href="${adminPath}/permission/add.do">添加</a>
+    <a class="layui-btn layui-btn-primary " onclick="javascript:window.location.reload()">刷新</a>
+</script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script>
+    LayUtil.treeTable.init({
+        url: '${adminPath}/permission/list.do',
+        cols: [[
+            {type: 'numbers'},
+            {field: 'name', minWidth: 200, title: '权限名称'},
+            {field: 'action', title: '权限标识'},
+            {field: 'url', title: '菜单url'},
+            {field: 'priority', width: 80, align: 'center', title: '排序号'},
+            {
+                field: 'type', width: 80, align: 'center', templet: function (d) {
+                    if (d.type == 0) {
+                        return '<span class="layui-badge layui-bg-gray">按钮</span>';
+                    }
+                    if (d.type == 1) {
+                        return '<span class="layui-badge-rim">菜单</span>';
+                    }
+                }, title: '类型'
+            },
+            {templet: '#auth-state', align: 'center', title: '操作'}
+        ]],
+        toolbar:'#toolbar'
+    });
+    
+</script>
+

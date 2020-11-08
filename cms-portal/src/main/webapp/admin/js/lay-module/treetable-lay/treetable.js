@@ -56,6 +56,13 @@ layui.define(['layer', 'table'], function (exports) {
                     }
                 }
             };
+            //add by jayy 增加根据priority排序
+            /*tNodes.sort(function (obj1, obj2) {
+                if(obj1.priority !== undefined && obj2.priority !== undefined){
+                    return obj1.priority - obj2.priority;
+                }
+                return 0;
+            });*/
             sort(param.treeSpid, tNodes);
 
             // 重写参数
@@ -189,8 +196,6 @@ layui.define(['layer', 'table'], function (exports) {
             });
         }
     };
-
-    layui.link(layui.cache.base + 'treetable-lay/treetable.css');
 
     // 给图标列绑定事件
     $('body').on('click', '.treeTable .treeTable-icon', function () {

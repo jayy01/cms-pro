@@ -5,10 +5,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!--注册方法验证的后处理器-->
-    <!--<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
-        <property name="validator" value="validater"/>
-    </bean>-->
+
     <!--配置映射器与适配器-->
     <!--<mvc:annotation-driven/>-->
 
@@ -46,6 +43,10 @@
                 <entry key="hibernate.validator.fail_fast" value="true"/>
             </map>
         </property>
+    </bean>
+    <!--注册方法验证的后处理器-->
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+        <property name="validator" ref="validator"/>
     </bean>
     <!--fastjsonconfig转换 localDateTime转换-->
     <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">

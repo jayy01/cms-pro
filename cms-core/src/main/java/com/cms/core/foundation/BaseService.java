@@ -28,4 +28,5 @@ public interface BaseService<DTO extends BaseDto,PK extends Serializable> {
      */
     DTO getById(PK id);
 
+
 }

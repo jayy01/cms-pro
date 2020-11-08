@@ -9,3 +9,16 @@
 .cms-inline-100 {
     width: 90%;
 }
+/*form种lable标签必输红点*/
+.cms-required {
+
+}
+.cms-go-back {
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 700;
+    background: url('data:image/gif;base64,R0lGODlhKAAoAPUhAAAAAAMDAwYGBgcHBwgICAkJCQoKChUVFRYWFhcXFy0tLS4uLj09PXNzc3x8fH19fYeHh7a2tre3t7i4uLm5ubq6uru7u7y8vMPDw8TExMXFxcbGxsrKytHR0dXV1erq6vX19f///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAoACgAAAb3wJBwSCwaj8ikcUIAOJ/QJ2GirIYkiY01hElctkesFtylgofis7CsTqvXCbPV/RZu4vNsvchO0vdDfUZ/gIF4RYSFhnJXeopIggNjj0gbBEMAViBJm1WZQp9JFwsfRx8LX0qhoUkOpEWnDlarW66lQrFbtLWvubqYZ64eC7Jgu2ANAA1qx1anDK/GwFu5ttKg1MRD1rPTSr7b0areSOBE3EnNRx0QSRAdnkMDHJRJlmgJ9PVFdxJEEQf07Qtxh5EQgAIp9UOCsF5BJRICPnpYBeCkOhStRMi3J+OWiBe3eASDJWGVkWdKijwESMKAKDCdTBlIsyaSIAA7');
+}

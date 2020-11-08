@@ -31,7 +31,17 @@
         inner.submit(function (data) {
             core.http({
                 url:"${adminPath}/site/edit.do",
-                data:data.field
+                data:data.field,
+                load:false
+            },function (res) {
+                switch (res.restCode) {
+                    case CONSTANT.HTTP.SUCCESS:
+                        core.prompt.msg(res.info,{icon: 1,time:1000})
+                        break;
+                    case CONSTANT.HTTP.ERROR:
+                        core.prompt.msg(res.info,{icon: 5,time:1000})
+                        break;
+                }
             })
         })
     });

@@ -3,6 +3,8 @@ package com.cms.portal.freemarker;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,10 +21,19 @@ public class CmsViewResolver extends FreeMarkerView {
         String requestURI = request.getRequestURI();
         String contextPath = request.getContextPath();  //
         String servletPath = request.getServletPath(); // /admin/cms
+
+        List<String> includeGoBackList = Arrays.asList("add.do", "edit.do","error.do");
+
         //后台路径
         if(requestURI.contains(ADMIN_PATH)){
             model.put("adminPath",contextPath+servletPath);
         }
+        //判断返回按钮
+        includeGoBackList .forEach(x -> {
+            if (requestURI.contains(x)){
+                model.put("goBack",true);
+            }
+        });
         model.put("basePath",contextPath);
     }
 }

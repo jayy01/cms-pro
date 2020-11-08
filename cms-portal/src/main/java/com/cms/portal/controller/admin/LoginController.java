@@ -1,6 +1,7 @@
 package com.cms.portal.controller.admin;
 
 import com.cms.context.foundation.Result;
+import com.cms.context.utils.UtilsTemplate;
 import com.cms.service.api.CommonService;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,10 @@ public class LoginController {
     @GetMapping("captcha.do")
     public void doCaptcha(HttpServletResponse httpServletResponse) {
         commonService.imageCaptcha();
+    }
+
+    @GetMapping("error.do")
+    public String toError(){
+        return UtilsTemplate.adminTemplate("error");
     }
 }

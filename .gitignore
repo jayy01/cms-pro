@@ -7,3 +7,7 @@
 /cms-service/target/
 /cms-pro.iml
 /cms-service/cms-service.iml
+
+
+cms-portal/src/main/webapp/layout/
+

@@ -60,7 +60,7 @@
         <!--注入安全管理器-->
         <property name="securityManager" ref="securityManager"/>
         <!--登录链接-->
-        <property name="loginUrl" value="login.do"/>
+        <property name="loginUrl" value="login.jspx"/>
         <!--登录成功的链接-->
         <property name="successUrl" value="/"/>
         <!--自定义filter-->

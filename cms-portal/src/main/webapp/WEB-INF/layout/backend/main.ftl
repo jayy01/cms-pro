@@ -10,10 +10,20 @@
         <link rel="stylesheet" href="${basePath}/admin/layui/css/layui.css" media="all">
         <link rel="stylesheet" href="${basePath}/admin/css/public.css" media="all">
         <link rel="stylesheet" href="${basePath}/admin/css/admin.css" media="all">
+        <link rel="stylesheet" href="${basePath}/admin/js/lay-module/treetable-lay/treetable.css" media="all">
+        <script type="application/javascript">
+            let BASE_PATH = "${basePath!''}";
+        </script>
     </head>
     <body>
 <div class="layuimini-container">
+    <#if goBack??>
+        <div class="layui-card-header">
+            <a href="javascript:window.history.go(-1)" class="cms-go-back"></a>
+        </div>
+    </#if>
     <div class="layuimini-main">
+
         <#nested >
     </div>
 </body>

@@ -1,5 +1,8 @@
 package com.cms.context.utils;
 
+import com.cms.context.constant.ConstantPool;
+import com.cms.context.foundation.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -7,6 +10,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @Author jayy
@@ -14,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 2020/9/29 15:59
  * @Version 1.0
  */
+@Slf4j
 public class UtilsHttp {
 
     private static final String HEADER_REAL_IP = "X-Real-IP";
@@ -82,5 +88,24 @@ public class UtilsHttp {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return requestAttributes.getResponse();
     }
+
+    /**
+     * 响应异常处理  区分ajax请求与跳转页面请求
+     * @return
+     */
+    public static Result<String> responseExceptionHandler(String info,String path){
+        HttpServletRequest request = getRequest();
+        if(Objects.isNull(request.getHeader(ConstantPool.X_REQUESTED_WITH))){
+            HttpServletResponse response = getResponse();
+            try {
+                response.sendRedirect(request.getServletPath()+path);
+                return  null;
+            } catch (IOException e) {
+                log.error("页面跳转异常："+e.getMessage());
+            }
+        }
+        return Result.failed(info);
+    }
+
 
 }

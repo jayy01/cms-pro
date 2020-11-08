@@ -10,7 +10,7 @@ let core = {
     //ajax请求封装
     http:function (option,callback) {
         this.cancel && this.cancel.abort();
-        let opt = {load:true},loadHandler,loadTime, options = {
+        let opt = {load:true,autoComplete:true,goBack:true},loadHandler,loadTime, options = {
             url:"",
             method:"post",
             contentType:"application/x-www-form-urlencoded",
@@ -30,19 +30,29 @@ let core = {
                     }
                     setTimeout(function () {
                         loadHandler.closeLoading();
-                        /*if(res.restCode === CONSTANT.HTTP.ERROR){
-                            LayUtil.layer.msg(res.info,{icon: 5,time:300})
-                        }*/
-                        switch (res.restCode) {
-                            case CONSTANT.HTTP.SUCCESS:
-                                core.prompt.msg(res.info,{icon: 1,time:300})
-                                break;
-                            case CONSTANT.HTTP.ERROR:
-                                core.prompt.msg(res.info,{icon: 5,time:300})
-                                break;
-                        }
                     },time)
                 }
+                let that = this,handler;
+                setTimeout(function () {
+                    switch (res.restCode) {
+                        case CONSTANT.HTTP.SUCCESS:
+                            if(that.goBack){
+                                handler = function () {
+                                    // 自动返回上一页
+                                    window.location.href = document.referrer;
+                                }
+                            }
+                            if(that.autoComplete){
+                                core.prompt.msg(res.info,{icon: 1,time:1000},handler)
+                            }
+                            break;
+                        case CONSTANT.HTTP.ERROR:
+                            core.prompt.msg(res.info,{icon: 5,time:1000})
+                            break;
+                    }
+                },100);
+
+
                 //处理自定义回调
                 (callback instanceof Function) && callback(res)
             },
@@ -56,9 +66,30 @@ let core = {
     },
     //提示相关
     prompt:{
+        // 提示框
         msg:function (info, option, callback) {
             LayUtil.layer.init(function (inner) {
                 inner.msg(info,option,callback)
+            })
+        },
+        // 确认框
+        confirm:function (info, option, callback) {
+            LayUtil.layer.init(function (inner) {
+                inner.confirm(info,option,callback);
+            })
+        }
+    },
+    // 业务相关
+    bussiness:{
+        // 删除
+        delete:function (data,callback) {
+            let config = {
+                url:"delete.do",
+                goBack: false,
+                data:{id:data.id}
+            };
+            core.prompt.confirm("确认执行该操作？",{icon:3,title:"提示"},function () {
+                core.http(config,callback);
             })
         }
     }
@@ -76,6 +107,46 @@ const CONSTANT = {
 //layui工具类
 function LayUtil() {
 
+}
+//树形表格的默认属性
+LayUtil.treeTableOption = {
+    treeColIndex: 1,
+    treeSpid: 0,
+    treeIdName: 'id',
+    treePidName: 'parentId',
+    elem: '#treeTable',
+    page: false
+}
+// 下拉树形结构默认属性
+LayUtil.selectTreeOption = {
+    elem: "#selectTree",
+    dataType: "json",
+    async: false,
+    method: 'post',
+    ficon:["1","-1"],
+    dataStyle:"layuiStyle",
+    initLevel: 1,
+    width: "100%",
+    dot: false,
+    checkbar: false,
+    formatter:{
+        title: function (data) {
+            let s = data.name;
+            if(data.children){
+                s += '<span style=\'color:blue\'>(' + data.children.length + ')</span>';
+            }
+            return s;
+        }
+    },
+    response:{
+        statusName:"restCode",
+        statusCode:200,
+        message: "restCode",
+        rootName: "data",
+        treeId: "id",
+        parentId: "parentId",
+        title: "name"
+    }
 }
 
 //js原型链
@@ -108,8 +179,17 @@ LayUtil.prototype = {
             closeLoading:function () {
                 this.layer.closeAll('loading');
             },
+            // 提示框
             msg:function (info,option,callback) {
                 this.layer.msg(info,option,callback);
+            },
+            // 确认框
+            confirm:function (info, option, callback) {
+                let that = this;
+                this.layer.confirm(info,option,function (index) {
+                    that.layer.close(index);
+                    (callback instanceof Function) && callback();
+                });
             }
         }
         //静态方法
@@ -148,6 +228,67 @@ LayUtil.prototype = {
             }
         }
         LayUtil.form = new Inner();
+    })(LayUtil),
+    // treeTable
+    treeTable:(function (LayUtil) {
+        function Inner() {
+
+        }
+        Inner.prototype = {
+            construct:Inner,
+            init:function (config,callback) {
+                let that = this,option = $.extend({},LayUtil.treeTableOption,config);
+                layui.extend({
+                    treetable: '{/}'+ BASE_PATH + '/admin/js/lay-module/treetable-lay/treetable'
+                }).use(['treetable','table'],function () {
+                    that.treetable = layui.treetable;
+                    that.table = layui.table;
+                    that.treetable.render(option);
+                    // 渲染完成后监听右侧工具栏
+                    that.rightTool(function (obj) {
+                        if(obj.event !== undefined && obj.event === "del"){
+                            // option 重新获取配置参数
+                            that.delete(obj.data,$.extend({},LayUtil.treeTableOption,config));
+                        }
+                    });
+                    (callback instanceof Function ) && callback(that,that.treetable,that.table);
+                });
+                return this;
+            },
+            //右侧工具栏
+            rightTool: function (callback,filter='treeTable') {
+                this.table.on('tool('+ filter +')',function (obj) {
+                    (callback instanceof Function ) && callback(obj);
+                })
+            },
+            // 表格单条删除操作
+            delete:function (data,option) {
+                let that = this;
+                core.bussiness.delete(data,function () {
+                    that.treetable.render(option);
+                })
+            }
+        }
+        LayUtil.treeTable = new Inner();
+    })(LayUtil),
+    // dtree 下拉树形
+    selectTree:(function (LayUtil) {
+        function Inner(){}
+        Inner.prototype = {
+            construct:Inner,
+            init: function (config, callback) {
+                let that = this,option = $.extend({},LayUtil.selectTreeOption,config);
+                layui.extend({
+                    dtree: '{/}' + BASE_PATH + "/admin/layui/layui_ext/dtree/dtree"
+                }).use('dtree', function(){
+                    that.dtree = layui.dtree;
+                    that.dtree.renderSelect(option);
+                    (callback instanceof Function) && callback(that,that.dtree);
+                });
+                return this;
+            }
+        }
+        LayUtil.selectTree = new Inner();
     })(LayUtil)
 
 }

@@ -15,7 +15,5 @@ public interface CmsPermissionMapper extends BaseMapper<CmsPermissionEntity,Inte
 
     List<CmsPermissionEntity> selectAll();
 
-    void deleteById(Integer id);
-
     List<CmsPermissionEntity> selectByParentId(Integer id);
 }

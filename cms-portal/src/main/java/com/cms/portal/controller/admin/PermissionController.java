@@ -83,7 +83,7 @@ public class PermissionController {
      * @param bindingResult
      * @return
      */
-    @PostMapping("save.do")
+    @PostMapping("add.do")
     @DoValid
     @ResponseBody
     public Result toSave(@Valid CmsPermissionDto cmsPermissionDto, BindingResult bindingResult){
@@ -121,10 +121,15 @@ public class PermissionController {
     @PostMapping("selectTree.do")
     @ResponseBody
     public Result doSelectTree(Integer id){
-        ArrayList permissionList = ((ArrayList) cmsPermissionService.selectTreeData(id));
+        ArrayList permissionList = ((ArrayList) cmsPermissionService.getTreeData(id));
         return Result.success(permissionList);
     }
 
+    /**
+     * 删除权限
+     * @param id
+     * @return
+     */
     @PostMapping("delete.do")
     @ResponseBody
     public Result doDeleteById(@NotNull(message = "id为空") Integer id){

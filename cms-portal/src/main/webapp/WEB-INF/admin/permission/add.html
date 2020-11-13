@@ -27,7 +27,7 @@
         </@form.item>
         <@form.item>
             <@form.inline lable="排序">
-                <input type="number" id="priority" name="priority"  lay-verify="" class="layui-input" >
+                <input type="number" id="priority" name="priority"  lay-verify="" class="layui-input" value="0" >
             </@form.inline>
         </@form.item>
         <@form.item>
@@ -57,12 +57,6 @@
     LayUtil.form.init(function (inner, form) {
         inner.verify();
         form.render();
-        inner.submit(function (data) {
-            core.http({
-                url:"${adminPath}/permission/save.do",
-                data:data.field
-            })
-        })
     });
 
 </script>

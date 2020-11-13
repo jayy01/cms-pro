@@ -10,10 +10,19 @@
         <#nested >
     </div>
 </#macro>
-<#--form表单中的一列-->
+<#--form表单中的一行三列-->
 <#macro inline lable="" class="" required=false>
     <div class="layui-inline ${class} " >
         <label class="layui-form-label <#if required>cms-required</#if>">${lable}</label>
+        <div class="layui-input-inline">
+            <#nested >
+        </div>
+    </div>
+</#macro>
+<#--form表单中的一行两列-->
+<#macro twoline lable="" class="" required=false>
+    <div class="layui-inline ${class} " >
+        <label class="cms-form-label <#if required>cms-required</#if>">${lable}</label>
         <div class="layui-input-inline">
             <#nested >
         </div>
@@ -38,4 +47,10 @@
     <#list list as item>
         <input type="radio" name="${name}" title="${item.label}" value="${item.getOrdinal()}" <#if value=="${item.getOrdinal()}">checked</#if>>
     </#list>
+</#macro>
+
+<#--表头查询-->
+<#macro headSearch>
+    <#nested >
+    <button type="button" class="layui-btn" lay-submit lay-filter="searchSubmit">查询</button>
 </#macro>

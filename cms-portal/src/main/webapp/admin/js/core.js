@@ -1,4 +1,17 @@
 let core = {
+    // 字符串操作
+    String:{
+        // 判断字符串是否为空
+        isEmpty:function (content) {
+            if(content === undefined){
+                return true;
+            }
+            if($.trim(content).length === 0){
+                return true;
+            }
+            return false;
+        }
+    },
     //限流工具类  方法  参数 作用域
     throttle:function (method,arg,context) {
         //进来一次  取消前一个定时
@@ -148,6 +161,66 @@ LayUtil.selectTreeOption = {
         title: "name"
     }
 }
+// 树形结构默认树形
+LayUtil.treeOption = {
+    elem: "#tree",
+    dataType: "json",
+    async: false,
+    method: 'post',
+    ficon:["1","7"],
+    dataStyle:"layuiStyle",
+    initLevel: 1,
+    width: "100%",
+    dot: false,
+    checkbar: false,
+    contentType: "application/json;charset=UTF-8",
+    nodeIconArray:{"1":{"open":"dtree-icon-wenjianjiazhankai","close":"dtree-icon-weibiaoti5"}},
+    formatter:{
+        title: function (data) {
+            let s = data.name;
+            if(data.children){
+                s += '<span style=\'color:blue\'>(' + data.children.length + ')</span>';
+            }
+            return s;
+        }
+    },
+    response:{
+        statusName:"restCode",
+        statusCode:200,
+        message: "restCode",
+        rootName: "data",
+        treeId: "id",
+        parentId: "parentId",
+        title: "name"
+    }
+}
+// dataGrid
+LayUtil.dataGridOption = {
+    id:"dataGrid",
+    elem: '#dataGrid',
+    url: 'page.do',
+    method:'post', //数据调用请求
+    page:true, //开启分页
+    limit: 10,
+    request: {
+        pageName: 'pageCurrent', //页码的参数名称，默认：page
+        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+    },
+    response: {
+        statusName: 'restCode', //规定数据状态的字段名称，默认：code
+        statusCode: 200, //规定成功的状态码，默认：0
+        msgName: 'restCode', //规定状态信息的字段名称，默认：msg
+        countName: 'pageCount', //规定数据总数的字段名称，默认：count
+        dataName: 'data' //规定数据列表的字段名称，默认：data
+    },
+    parseData: function(res){ //res 即为原始返回的数据
+        return {
+            "restCode": res.restCode, //解析接口状态
+            "pageCount": res.data ? res.data.pageCount : undefined, //解析数据长度
+            "data": res.data ? res.data.content : undefined //解析数据列表
+        };
+    }
+}
 
 //js原型链
 LayUtil.prototype = {
@@ -207,7 +280,13 @@ LayUtil.prototype = {
                     that.form = layui.form;
                     that.form.render();
                     if(callback instanceof Function){
-                        callback(that,that.form);
+                        // 自动提交  如果返回undefined
+                        let autoOperation = callback(that,that.form);
+                        if(autoOperation === undefined){
+                            (OPERATION_URL!==undefined&&!core.String.isEmpty(OPERATION_URL)) && that.submit(function (data) {
+                                core.http({url:OPERATION_URL,data:data.field});
+                            })
+                        }
                     }
                 })
                 return this;
@@ -220,11 +299,19 @@ LayUtil.prototype = {
             submit:function (callback,name,type="submit") {
                 this.form.on(type+"("+(name===undefined?'form':name)+")",function (obj) {
                     if(callback instanceof Function){
-                        callback(obj);
+                        // 自动提交  如果返回undefined
+                        let data = callback(obj);
+                        if(data != undefined){
+                            (OPERATION_URL!==undefined&&!core.String.isEmpty(OPERATION_URL)) && core.http({url:OPERATION_URL,data:data});
+                        }
                         return false;
                     }
                     return true;
                 })
+            },
+            // radio 事件监听
+            radio: function (name,callback) {
+                this.submit(callback,name,"radio");
             }
         }
         LayUtil.form = new Inner();
@@ -289,6 +376,91 @@ LayUtil.prototype = {
             }
         }
         LayUtil.selectTree = new Inner();
+    })(LayUtil),
+    // dtree 树形结构
+    tree:(function (LayUtil) {
+        function Inner(){}
+        Inner.prototype = {
+            construct:Inner,
+            init: function (config, callback) {
+                let that = this,option = $.extend({},LayUtil.treeOption,config);
+                // id 去#
+                this.id = option.elem;
+                layui.extend({
+                    dtree: '{/}' + BASE_PATH + "/admin/layui/layui_ext/dtree/dtree"
+                }).use('dtree', function(){
+                    that.dtree = layui.dtree;
+                    that.dtree.render(option);
+                    (callback instanceof Function) && callback(that,that.dtree);
+                });
+                return this;
+            },
+            getChecked: function (obj,name) {
+                console.log(this.id);
+                let arr = this.dtree.getCheckbarNodesParam((this.id+'').replace('#',''));
+                if(arr instanceof Array){
+                    if(obj != undefined && name != undefined){
+                        for(let i = 0; i< arr.length; i++){
+                            obj[name+'['+i+']'] = arr[i].nodeId;
+                        }
+                        return obj;
+                    }
+                }
+            }
+        }
+        LayUtil.tree = new Inner();
+    })(LayUtil),
+    // dataGrid
+    dataGrid:(function (LayUtil) {
+        function Inner(){}
+        Inner.prototype = {
+            construct: Inner,
+            init: function (config, callback) {
+                let that = this,option = $.extend({},LayUtil.dataGridOption,config);
+                layui.use('table',function () {
+                    that.table = layui.table;
+                    that.table.render(option);
+                    // 渲染完成后监听右侧工具栏
+                    that.rightTool(function (obj) {
+                        debugger;
+                        if(obj.event !== undefined && obj.event === "del"){
+                            // option 重新获取配置参数
+                            that.delete(obj.data,$.extend({},LayUtil.dataGridOption,config));
+                        }
+                    });
+                    (callback instanceof Function) && callback(that,that.table);
+                })
+                return this;
+            },
+            // 渲染表头查询
+            renderSearch:function (name) {
+                let that = this,form = layui.form;
+                layui.use('form',function () {
+                    this.form.on('submit('+name+')',function (data) {
+                        that.table.reload('dataGrid',{
+                            where:data.field,
+                            page:{
+                                cuur:1
+                            }
+                        })
+                    })
+                })
+            },
+            //右侧工具栏
+            rightTool: function (callback,filter='dataGrid') {
+                this.table.on('tool('+ filter +')',function (obj) {
+                    (callback instanceof Function ) && callback(obj);
+                })
+            },
+            // 删除
+            delete:function (data,option) {
+                let that = this;
+                core.bussiness.delete(data,function () {
+                    that.table.render(option);
+                })
+            }
+        }
+        LayUtil.dataGrid = new Inner();
     })(LayUtil)
 
 }

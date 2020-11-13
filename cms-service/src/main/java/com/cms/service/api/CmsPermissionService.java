@@ -13,21 +13,16 @@ import java.util.List;
  */
 public interface CmsPermissionService extends BaseService<CmsPermissionDto,Integer> {
     /**
-     * 获取下拉菜单格式化后的数据
+     * 获取树形格式化后数据
+     * Integer id 排除id
      * @return
      */
-    List<CmsPermissionDto>  selectTreeData(Integer id);
+    List<CmsPermissionDto>  getTreeData(Integer id);
 
     /**
      * 获取全部是数据
      * @return
      */
     List<CmsPermissionDto> getList();
-
-    /**
-     * 通过id删除
-     * @param id
-     */
-    void deleteById(Integer id);
 
 }

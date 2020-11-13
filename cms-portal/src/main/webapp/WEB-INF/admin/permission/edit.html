@@ -56,12 +56,6 @@
     LayUtil.form.init(function (inner, form) {
         inner.verify();
         form.render();
-        inner.submit(function (data) {
-            core.http({
-                url:"${adminPath}/permission/edit.do",
-                data:data.field
-            })
-        })
     });
 
 </script>

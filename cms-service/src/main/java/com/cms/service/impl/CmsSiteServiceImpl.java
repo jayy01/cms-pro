@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.core.foundation.BasePage;
 import com.cms.dao.mapper.CmsSiteMapper;
 import com.cms.service.api.CmsSiteService;
 import com.cms.service.converter.CmsSiteConverter;
@@ -32,5 +33,15 @@ public class CmsSiteServiceImpl implements CmsSiteService {
     @Override
     public CmsSiteDto getById(Integer id) {
         return CmsSiteConverter.CONVERTER.entityToDto(cmsSiteMapper.selectById(id));
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
+
+    @Override
+    public BasePage<CmsSiteDto> getPage(CmsSiteDto dto) {
+        return null;
     }
 }

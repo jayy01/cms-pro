@@ -27,13 +27,15 @@ public class CmsViewResolver extends FreeMarkerView {
         //后台路径
         if(requestURI.contains(ADMIN_PATH)){
             model.put("adminPath",contextPath+servletPath);
+            //判断返回按钮
+            includeGoBackList .forEach(x -> {
+                if (requestURI.contains(x)){
+                    model.put("goBack",true);
+                    model.put("operationUrl",x);
+                }
+            });
         }
-        //判断返回按钮
-        includeGoBackList .forEach(x -> {
-            if (requestURI.contains(x)){
-                model.put("goBack",true);
-            }
-        });
+
         model.put("basePath",contextPath);
     }
 }

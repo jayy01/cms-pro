@@ -31,6 +31,12 @@ public class UtilsHttp {
     private static final String IP_EMPTY = "0:0:0:0:0:0:0:1";
     private static final String IP_LOOP = "127.0.0.1";
 
+    // 分页信息
+    private static final Integer DEFAULT_SIZE = 10;
+    private static final String ORDER_BY = "orderBy";
+    private static final String PAGE_SIZE = "pageSize";
+    private static final String PAGE_CURRENT = "pageCurrent";
+
     /**
      * 获取访问者ip
      * 在一般情况下 使用 Request.getRemoteAddress() 即可 但是经过nginx等反向代理软件后 这个方法会失效
@@ -107,5 +113,55 @@ public class UtilsHttp {
         return Result.failed(info);
     }
 
+    /**
+     * 获取分页查询的参数
+     * @return
+     */
+    public static Page getPageInfo(){
+        HttpServletRequest request = getRequest();
+        String pageSize = request.getParameter(PAGE_SIZE);
+        String pageCurrent = request.getParameter(PAGE_CURRENT);
+        String orderBy = request.getParameter(ORDER_BY);
+
+        return new Page(StringUtils.isNotBlank(pageSize)?Integer.parseInt(pageSize):DEFAULT_SIZE,
+                        StringUtils.isNotBlank(pageCurrent)?Integer.parseInt(pageCurrent):1,
+                        orderBy);
+    }
+    // 内部类提供返回对象
+    public static final class Page{
+        private Integer pageSize;
+        private String orderBy;
+        private Integer pagecurrent;
+
+        public Page(Integer pageSize, Integer pagecurrent, String orderBy) {
+            this.pageSize = pageSize;
+            this.orderBy = orderBy;
+            this.pagecurrent = pagecurrent;
+        }
+
+        public Integer getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(Integer pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public String getOrderBy() {
+            return orderBy;
+        }
+
+        public void setOrderBy(String orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        public Integer getPagecurrent() {
+            return pagecurrent;
+        }
+
+        public void setPagecurrent(Integer pagecurrent) {
+            this.pagecurrent = pagecurrent;
+        }
+    }
 
 }

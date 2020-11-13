@@ -1,11 +1,13 @@
 package com.cms.service.dto;
 
 import com.cms.core.foundation.BaseDto;
+import com.cms.core.foundation.TreeDto;
 import com.cms.dao.enums.PermissionTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author jayy
@@ -15,7 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class CmsPermissionDto extends BaseDto<Integer> {
+public class CmsPermissionDto extends TreeDto<CmsPermissionDto,Integer> {
     private Integer parentId;
     private Integer type;
     private String icon;
@@ -23,6 +25,4 @@ public class CmsPermissionDto extends BaseDto<Integer> {
     private String action;
     private String url;
     private Integer priority;
-
-    private List<CmsPermissionDto> children;
 }

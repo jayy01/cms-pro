@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="${basePath}/admin/css/admin.css" media="all">
         <link rel="stylesheet" href="${basePath}/admin/js/lay-module/treetable-lay/treetable.css" media="all">
         <script type="application/javascript">
-            let BASE_PATH = "${basePath!''}";
+            let BASE_PATH = "${basePath!''}",OPERATION_URL="${operationUrl!''}";
         </script>
     </head>
     <body>

@@ -29,5 +29,10 @@ public interface BaseMapper<ENTITY extends BaseEntity<PK>, PK extends Serializab
      * @param id
      * @return
      */
-    ENTITY selectById(Integer id);
+    ENTITY selectById(PK id);
+    /**
+     * 通用根据id删除
+     * @param id
+     */
+    void deleteById(PK id);
 }

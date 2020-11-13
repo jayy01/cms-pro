@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.core.foundation.BasePage;
 import com.cms.dao.mapper.CmsLogMapper;
 import com.cms.service.api.CmsLogService;
 import com.cms.service.converter.CmsLogConverter;
@@ -31,6 +32,16 @@ public class CmsLogServiceImpl implements CmsLogService {
 
     @Override
     public CmsLogDto getById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
+
+    @Override
+    public BasePage<CmsLogDto> getPage(CmsLogDto dto) {
         return null;
     }
 }

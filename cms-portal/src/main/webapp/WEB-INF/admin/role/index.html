@@ -1,0 +1,48 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <@form.headSearch>
+            <@form.inline lable="名称">
+                <input type="text" name="name" class="layui-input" >
+            </@form.inline>
+        </@form.headSearch>
+    </@form.form>
+    <table id="dataGrid" class="layui-table" lay-filter="dataGrid"></table>
+</@main.layout>
+<!-- 操作列 -->
+<script type="text/html" id="rightTemplate">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href="${adminPath}/role/edit.do?id={{d.id}}">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<!-- 操作列 -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-normal layui-bg-blue" href="${adminPath}/role/add.do">添加</a>
+    <a class="layui-btn layui-btn-primary " onclick="javascript:window.location.reload()">刷新</a>
+</script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script>
+
+    LayUtil.dataGrid.init({
+        url: '${adminPath}/role/page.do', //数据接口
+        cols: [[ //表头
+            {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
+            {field: 'name', title: '权限名称 ', width:120},
+            {field: 'priority', title: '排序', width:80, sort: true},
+            {field: 'all', title: '是否全部权限', width:120,templet: function (data) {
+                    return data.all?"是":"否";
+                }},
+            {field: 'status', title: '是否禁用', width:120,templet:function (data) {
+                    return data.status?"禁用":"启用";
+                }},
+            {templet: '#rightTemplate',align: 'center',title:'操作'}
+        ]],
+        toolbar: "#toolbar"
+    },function (inner, table) {
+        inner.renderSearch("searchSubmit");
+    });
+
+</script>
+

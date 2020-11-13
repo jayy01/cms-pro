@@ -1,5 +1,6 @@
 package com.cms.service.impl;
 
+import com.cms.core.foundation.BasePage;
 import com.cms.dao.entity.CmsUserEntity;
 import com.cms.dao.mapper.CmsUserMapper;
 import com.cms.service.api.CmsUserService;
@@ -41,6 +42,16 @@ public class CmsUserServiceImpl implements CmsUserService {
 
     @Override
     public CmsUserDto getById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
+
+    @Override
+    public BasePage<CmsUserDto> getPage(CmsUserDto dto) {
         return null;
     }
 }

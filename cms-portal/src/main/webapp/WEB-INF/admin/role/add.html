@@ -1,0 +1,62 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <input type="hidden" id="parentId" name="parentId"  value="${parentId!0}">
+        <@form.item>
+            <@form.twoline lable="角色名称" required=true>
+                <input type="text" id="name" name="name"  lay-verify="required" class="layui-input" >
+            </@form.twoline>
+            <@form.twoline lable="排序">
+                <input type="number" id="priority" name="priority"  lay-verify="" class="layui-input" value="0" >
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="拥有所有权限">
+                <input type="radio"  name="all" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="1" title="是">
+                <input type="radio"  name="all" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="0" title="否" checked>
+            </@form.twoline>
+            <@form.twoline lable="是否禁用">
+                <input type="radio"  name="status" lay-verify="" class="layui-input" value="1" title="是">
+                <input type="radio"  name="status" lay-verify="" class="layui-input" value="0" title="否" checked>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="权限" class="permission">
+                <table id="tree" class="layui-table" lay-filter="tree"></table>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.submit></@form.submit>
+        </@form.item>
+    </@form.form>
+</@main.layout>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script>
+    // form
+    LayUtil.form.init(function (inner, form) {
+        inner.verify();
+        inner.submit(function (data) {
+            if(data.field.all === "0"){
+                dtreeInner.getChecked(data.field,"permission");
+            }
+            return data.field;
+        });
+        inner.radio("permissionFilter",function (obj) {
+            (obj.value === "1")?$(".permission").hide():$(".permission").show();
+        });
+        return true;
+    });
+    // tree
+    let dtreeInner = LayUtil.tree.init({
+        url:"${adminPath}/role/permission.do",
+        checkbar:true
+    });
+</script>
+
+
+

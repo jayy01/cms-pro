@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.mapper.CmsRoleMapper">
+
+    <insert id="save">
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into cms_role(
+        create_time,
+        name,
+        priority,
+        is_all,
+        status
+        ) values (
+        #{createTime},
+        #{name},
+        #{priority},
+        #{all},
+        #{status})
+    </insert>
+    <sql id="updateField">
+        update_time = #{updateTime},
+        <if test="name!=null and name!=''">
+            name = #{name},
+        </if>
+        <if test="priority!=null">
+            priority = #{priority},
+        </if>
+        <if test="all!=null">
+            is_all = #{all},
+        </if>
+        <if test="status!=null">
+            status = #{status},
+        </if>
+    </sql>
+    <update id="update">
+        update cms_role
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"></include>
+        </trim>
+        where id = #{id}
+    </update>
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsRoleEntity">
+        <id property="id" column="id"/>
+        <result property="priority" column="priority"/>
+        <result property="name" column="name"/>
+        <result property="all" column="is_all"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <sql id="baseColumn">
+        id,
+        name,
+        priority,
+        is_all,
+        status
+    </sql>
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/>
+        from cms_role where id = #{id}
+    </select>
+    <select id="select" resultMap="baseResultMap">
+        select <include refid="baseColumn"/>
+        from cms_role
+    </select>
+    <select id="selectByPage" parameterType="com.cms.core.foundation.SearchProvider" resultMap="baseResultMap">
+        select <include refid="baseColumn"/>
+        from cms_role
+        <where>
+            1 = 1
+            <if test="criteria.name!=null and criteria.name!=''">
+                and name like concat('%',concat(#{criteria.name},'%'))
+            </if>
+        </where>
+    </select>
+    <delete id="deleteById" >
+        delete from cms_role where id = #{id}
+    </delete>
+</mapper>

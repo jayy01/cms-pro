@@ -1,0 +1,78 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <input type="hidden" id="id" name="id"  value="${data.id!0}">
+        <@form.item>
+            <@form.twoline lable="角色名称" required=true>
+                <input type="text" id="name" name="name"  lay-verify="required" class="layui-input" value="${data.name!}">
+            </@form.twoline>
+            <@form.twoline lable="排序">
+                <input type="number" id="priority" name="priority"  lay-verify="" class="layui-input" value="${data.priority!}" >
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="拥有所有权限">
+                <#if data.all?string("1","0")=="1">
+                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="1" title="是" checked>
+                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="0" title="否"  >
+                <#else>
+                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="1" title="是" >
+                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="0" title="否" checked >
+                </#if>
+            </@form.twoline>
+            <@form.twoline lable="是否禁用">
+                <#if data.status?string("1","0")=="1">
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="1" title="禁用" checked>
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="0" title="启用" >
+                <#else>
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="1" title="禁用" >
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="0" title="启用" checked>
+                </#if>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="权限">
+                <table id="tree" class="layui-table" lay-filter="tree"></table>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.submit></@form.submit>
+        </@form.item>
+    </@form.form>
+</@main.layout>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script>
+    <#if data.all?string("1","0")=="1">
+        $(".permission").hide();
+    </#if>
+    // form
+    LayUtil.form.init(function (inner, form) {
+        inner.verify();
+        inner.submit(function (data) {
+            if(data.field.all === "0"){
+                dtreeInner.getChecked(data.field,"permission");
+            }
+            return data.field;
+        });
+        inner.radio("permissionFilter",function (obj) {
+            (obj.value === "1")?$(".permission").hide():$(".permission").show();
+        });
+        return true;
+    });
+    // tree
+    let dtreeInner = LayUtil.tree.init({
+        url:"${adminPath}/role/permission.do",
+        method:"post",
+        contentType:"application/x-www-form-urlencoded",
+        request:{roleId:"${data.id!}"},
+        checkbar:true
+    });
+</script>
+
+
+

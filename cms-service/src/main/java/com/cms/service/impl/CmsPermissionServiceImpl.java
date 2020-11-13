@@ -1,8 +1,10 @@
 package com.cms.service.impl;
 
 import com.cms.core.exception.BusinessException;
+import com.cms.core.foundation.BasePage;
 import com.cms.dao.entity.CmsPermissionEntity;
 import com.cms.dao.mapper.CmsPermissionMapper;
+import com.cms.dao.mapper.CmsRolePermissionMapper;
 import com.cms.service.api.CmsPermissionService;
 import com.cms.service.converter.CmsPermissionConverter;
 import com.cms.service.dto.CmsPermissionDto;
@@ -10,6 +12,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Comparator;
@@ -26,8 +29,11 @@ import java.util.Objects;
 @Service
 public class CmsPermissionServiceImpl implements CmsPermissionService {
 
+
     @Autowired
     CmsPermissionMapper cmsPermissionMapper;
+    @Autowired
+    CmsRolePermissionMapper cmsRolePermissionMapper;
 
     @Override
     public void save(CmsPermissionDto dto) {
@@ -45,7 +51,7 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
     }
 
     @Override
-    public List<CmsPermissionDto> selectTreeData(Integer excludeId) {
+    public List<CmsPermissionDto> getTreeData(Integer excludeId) {
 
         List<CmsPermissionEntity> cmsPermissionEntitys = cmsPermissionMapper.selectAll();
         // 存放所有数据
@@ -85,17 +91,25 @@ public class CmsPermissionServiceImpl implements CmsPermissionService {
         return permissionList;
     }
 
+
     @Override
     public List<CmsPermissionDto> getList() {
         return CmsPermissionConverter.CONVERTER.entityToDto(cmsPermissionMapper.selectAll());
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteById(Integer id) {
         List<CmsPermissionEntity> cmsPermissionEntities = cmsPermissionMapper.selectByParentId(id);
         if(!CollectionUtils.isEmpty(cmsPermissionEntities)){
             throw new BusinessException("改权限含有子权限，不能删除！");
         }
         cmsPermissionMapper.deleteById(id);
+        cmsRolePermissionMapper.deleteByPermissionId(id);
+    }
+
+    @Override
+    public BasePage<CmsPermissionDto> getPage(CmsPermissionDto dto) {
+        return null;
     }
 }

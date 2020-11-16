@@ -2,30 +2,67 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cms.dao.mapper.CmsUserMapper">
-
-
     <sql id="baseColumn">
         id,
         username,
-        status
+        password,
+        salt,
+        email,
+        is_backend,
+        is_supper,
+        register_time,
+        register_ip,
+        login_count,
+        status,
+        is_delete
+    </sql>
+
+    <sql id="key">
+        username,
+        password,
+        salt,
+        email,
+        is_backend,
+        is_supper,
+        register_time,
+        register_ip,
+        status,
+        create_time
+    </sql>
+    <sql id="value">
+        username,
+        password,
+        salt,
+        email,
+        is_backend,
+        is_supper,
+        register_time,
+        register_ip,
+        status,
+        create_time
+    </sql>
+
+    <sql id="updateField">
+        update_time = #{updateTime},
     </sql>
     
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="email" column="email"/>
+        <result property="backend" column="is_backend"/>
+        <result property="supper" column="is_supper"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="registerIp" column="register_ip"/>
+        <result property="loginCount" column="login_count"/>
+        <result property="status" column="status"/>
+        <result property="delete" column="is_delete"/>
         <result property="status" column="status"/>
     </resultMap>
 
-    <sql id="updateField">
-        update_time = #{updateTime},
-        <if test="sessionId!=null and sessionId!=''">
-            session_id = #{sessionId},
-        </if>
-        <if test="lastLoginIp!=null and lastLoginIp!=''">
-            last_login_ip = #{lastLoginIp},
-        </if>
-    </sql>
-    
+
     <update id="update">
         update cms_user
         <trim prefix="set" suffixOverrides=",">
@@ -35,7 +72,24 @@
     </update>
     
     <select id="getByUsername" resultMap="baseResultMap">
-    select <include refid="baseColumn"/> from cms_user_primary where username = #{username} and deleted = 1
-
+        select <include refid="baseColumn"/> from cms_user
+        where username = #{username} and is_delete = 0
     </select>
+
+    <select id="selectAll" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user
+        where is_delete = 0
+        <if test="criteria.username!=null and criteria.username!=''">
+            and username like contact('%',contract(#{username},'%'))
+        </if>
+    </select>
+
+
+    <insert id="save">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" keyColumn="id" order="AFTER" >
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into <include refid="key"/> values  (<include refid="value"/>)
+    </insert>
+
 </mapper>

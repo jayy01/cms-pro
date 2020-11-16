@@ -1,0 +1,49 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <@form.headSearch>
+            <@form.inline lable="用户名">
+                <input type="text" name="name" class="layui-input" >
+            </@form.inline>
+        </@form.headSearch>
+    </@form.form>
+    <table id="dataGrid" class="layui-table" lay-filter="dataGrid"></table>
+</@main.layout>
+<!-- 操作列 -->
+<script type="text/html" id="rightTemplate">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" href="edit.do?id={{d.id}}">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<!-- 操作列 -->
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-normal layui-bg-blue" href="add.do">添加</a>
+    <a class="layui-btn layui-btn-primary " onclick="javascript:window.location.reload()">刷新</a>
+</script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script>
+
+    LayUtil.dataGrid.init({
+        url: '${adminPath}/admin/page.do', //数据接口
+        cols: [[ //表头
+            {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
+            {field: 'username', title: '用户名 ', width:120},
+            {field: 'email', title: '邮箱', width:200, sort: true},
+            {field: 'backend', title: '是否后台管理员', width:150,templet: function (data) {
+                    return data.backend?"是":"否";
+                }},
+            {field: 'registerTime', title: '注册时间', width:180},
+            {field: 'status', title: '用户状态', width:120,templet:function (data) {
+                    return data.status?"禁用":"启用";
+                }},
+            {templet: '#rightTemplate',align: 'center',title:'操作'}
+        ]],
+        toolbar: "#toolbar"
+    },function (inner, table) {
+        inner.renderSearch("searchSubmit");
+    });
+
+</script>
+

@@ -1,0 +1,84 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <@form.item>
+            <@form.twoline lable="用户名" required=true>
+                <input type="text" id="username" name="name"  lay-verify="required|username" class="layui-input" >
+            </@form.twoline>
+            <@form.twoline lable="密码">
+                <input type="password" id="password" name="password"  lay-verify="required|password" class="layui-input" >
+            </@form.twoline>
+            <@form.twoline lable="确认密码">
+                <input type="password" id="confirmPassword" name="confirmPassword"  lay-verify="required|confirmPassword" class="layui-input" >
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="邮箱">
+                <input type="text" id="email" name="email"  lay-verify="required|email" class="layui-input" >
+            </@form.twoline>
+            <@form.twoline lable="用户状态">
+                <input type="radio"  name="status" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="1" title="启用" checked>
+                <input type="radio"  name="status" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="0" title="禁用">
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="后台管理员">
+                <input type="radio"  name="backend" lay-verify="" lay-filter="backendFilter" class="layui-input" value="1" title="是" checked>
+                <input type="radio"  name="backend" lay-verify="" lay-filter="backendFilter" class="layui-input" value="0" title="否" >
+            </@form.twoline>
+            <@form.twoline lable="超级管理员" class="supper">
+                <input type="radio"  name="supper" lay-verify="" class="layui-input" value="1" title="是">
+                <input type="radio"  name="supper" lay-verify="" class="layui-input" value="0" title="否" checked>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.aline lable="角色" >
+                <#if roles?size==0>
+                    <span>当前没有角色，请到角色管理维护</span>
+                <#else >
+                    <@form.listRadio list=roles itemLable="name" itemValue="id"  name="roleId"></@form.listRadio>
+                </#if>
+            </@form.aline>
+        </@form.item>
+        <@form.item>
+            <@form.submit></@form.submit>
+        </@form.item>
+    </@form.form>
+</@main.layout>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script>
+    // form
+    LayUtil.form.init(function (inner, form) {
+        inner.verify({
+            "username":function (data) {
+                if(!new RegExp(CONSTANT.REGEX.USERNAME).test(data)){
+                    return "用户名必须是5-10位英文字母数字组成";
+                }
+            },
+            "password":function (data) {
+                if(!new RegExp(CONSTANT.REGEX.PASSWORD).test(data)){
+                    return "密码必须是5-20位英文字母数字特殊字符组成";
+                }
+
+            },
+            "confirmPassword":function (data) {
+                let password = $('input[name="password"]').val();
+                if(password != data){
+                    return "两次密码输入不一致";
+                }
+            }
+        });
+        inner.radio("backendFilter",function (obj) {
+            (obj.value === "0")?$(".supper").hide():$(".supper").show();
+        });
+        return true;
+    });
+</script>
+
+
+

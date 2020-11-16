@@ -2,7 +2,6 @@
 <#import "/layout/backend/form.ftl" as form>
 <@main.layout>
     <@form.form>
-        <input type="hidden" id="parentId" name="parentId"  value="${parentId!0}">
         <@form.item>
             <@form.twoline lable="角色名称" required=true>
                 <input type="text" id="name" name="name"  lay-verify="required" class="layui-input" >

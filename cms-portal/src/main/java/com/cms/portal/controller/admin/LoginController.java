@@ -31,9 +31,16 @@ public class LoginController {
         return "/admin/login";
     }
 
+    @PostMapping("login.do")
+    @ResponseBody
+    public Result toIndex(){
+        return Result.success();
+    }
+
+
 
     @GetMapping("captcha.do")
-    public void doCaptcha(HttpServletResponse httpServletResponse) {
+    public void doCaptcha() {
         commonService.imageCaptcha();
     }
 

@@ -1,8 +1,10 @@
 package com.cms.dao.mapper;
 
 import com.cms.core.foundation.BaseMapper;
+import com.cms.core.foundation.SearchProvider;
 import com.cms.dao.entity.CmsUserEntity;
-import com.cms.dao.entity.CmsUserPrimaryEntity;
+
+import java.util.List;
 
 /**
  * @Author jayy
@@ -17,4 +19,11 @@ public interface CmsUserMapper extends BaseMapper<CmsUserEntity,Integer> {
      * @return
      */
     CmsUserEntity getByUsername(String username);
+
+    /**
+     * 按条件获取全部数据
+     * @param searchProvider  条件
+     * @return
+     */
+    List<CmsUserEntity> selectAll(SearchProvider searchProvider);
 }

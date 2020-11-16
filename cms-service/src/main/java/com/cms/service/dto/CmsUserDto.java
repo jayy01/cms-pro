@@ -5,6 +5,8 @@ import com.cms.dao.enums.UserStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author jayy
  * @Description
@@ -16,14 +18,15 @@ import lombok.Setter;
 public class CmsUserDto extends BaseDto<Integer> {
 
     private String username;
-    private UserStatusEnum status;
-    private Boolean admin;
-
-    private String lastLoginIp;
-    private String sessionId;
-    /**
-     * 超级管理员
-     */
-    private Boolean administrator;
+    private String password;
+    private String salt;
+    private String email;
+    private Boolean backend;
+    private Boolean supper;
+    private LocalDateTime registerTime;
+    private String registerIp;
+    private Integer loginCount;
+    private Boolean status;
+    private Boolean delete;
 
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.cms.dao.mapper.CmsRoleMapper">
 
     <insert id="save">
-        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+        <selectKey order="AFTER" keyProperty="id" keyColumn="id" resultType="java.lang.Integer">
             select LAST_INSERT_ID()
         </selectKey>
         insert into cms_role(

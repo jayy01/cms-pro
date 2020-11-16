@@ -113,6 +113,13 @@ const CONSTANT = {
     HTTP:{
         SUCCESS : 200,
         ERROR : 500
+    },
+    // 正则表达式
+    REGEX:{
+        // 用户名
+        USERNAME : /^[0-9a-zA-Z]{5,10}$/,
+        // 密码
+        PASSWORD : /^[0-9a-zA-Z\\W]{5,20}$/
     }
 }
 
@@ -422,7 +429,6 @@ LayUtil.prototype = {
                     that.table.render(option);
                     // 渲染完成后监听右侧工具栏
                     that.rightTool(function (obj) {
-                        debugger;
                         if(obj.event !== undefined && obj.event === "del"){
                             // option 重新获取配置参数
                             that.delete(obj.data,$.extend({},LayUtil.dataGridOption,config));

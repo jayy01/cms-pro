@@ -30,7 +30,7 @@
 </#macro>
 <#--form中一行一列-->
 <#macro aline lable="" required=false>
-    <label class="layui-form-label <#if required>cms-required</#if>">${lable}</label>
+    <label class="cms-form-label <#if required>cms-required</#if>">${lable}</label>
     <div class="layui-input-block">
         <#nested >
     </div>
@@ -48,7 +48,12 @@
         <input type="radio" name="${name}" title="${item.label}" value="${item.getOrdinal()}" <#if value=="${item.getOrdinal()}">checked</#if>>
     </#list>
 </#macro>
-
+<#--单选框-->
+<#macro listRadio list name itemLable="" itemValue="" value="">
+    <#list list as item>
+        <input type="radio" name="${name}" title="${item[itemLable]}" value="${item[itemValue]}" <#if value=="${item[itemValue]}">checked</#if>>
+    </#list>
+</#macro>
 <#--表头查询-->
 <#macro headSearch>
     <#nested >

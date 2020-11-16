@@ -1,0 +1,84 @@
+<#import "/layout/backend/main.ftl" as main>
+<#import "/layout/backend/form.ftl" as form>
+<@main.layout>
+    <@form.form>
+        <input type="hidden" id="id" name="id"  value="${data.id!0}">
+        <@form.item>
+            <@form.twoline lable="用户名" required=true>
+                <input type="text" id="username" name="username"  lay-verify="required" class="layui-input" value="${data.username!}">
+            </@form.twoline>
+            <@form.twoline lable="密码">
+                <input type="password" id="password" name="password"  lay-verify="required" class="layui-input" value="${data.password!}">
+            </@form.twoline>
+            <@form.twoline lable="确认密码">
+                <input type="password" id="confirmPassword" name="confirmPassword"  lay-verify="required" class="layui-input" value="${data.password!}">
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="邮箱">
+                <input type="text" id="email" name="email"  lay-verify="required" class="layui-input" value="${data.email!}" >
+            </@form.twoline>
+            <@form.twoline lable="用户状态">
+                <#if data.status?string("1","0")=="1">
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="1" title="禁用" checked>
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="0" title="启用" >
+                <#else>
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="1" title="禁用" >
+                    <input type="radio"  name="status" lay-verify="" class="layui-input" value="0" title="启用" checked>
+                </#if>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="是否后台管理员" >
+                <#if data.backend?string("1","0")=="1">
+                    <input type="radio"  name="backend" lay-verify="" lay-filter="backendFilter" class="layui-input" value="1" title="是" checked>
+                    <input type="radio"  name="backend" lay-verify="" lay-filter="backendFilter" class="layui-input" value="0" title="否"  >
+                <#else>
+                    <input type="radio"  name="backend" lay-verify="" lay-filter="backendFilter" class="layui-input" value="1" title="是" >
+                    <input type="radio"  name="backend" lay-verify="" lay-filter="backendFilter" class="layui-input" value="0" title="否" checked >
+                </#if>
+            </@form.twoline>
+            <@form.twoline lable="是否超级管理员" class="supper">
+                <#if data.supper?string("1","0")=="1">
+                    <input type="radio"  name="supper" lay-verify="" class="layui-input" value="1" title="禁用" checked>
+                    <input type="radio"  name="supper" lay-verify="" class="layui-input" value="0" title="启用" >
+                <#else>
+                    <input type="radio"  name="supper" lay-verify="" class="layui-input" value="1" title="禁用" >
+                    <input type="radio"  name="supper" lay-verify="" class="layui-input" value="0" title="启用" checked>
+                </#if>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.twoline lable="角色">
+                <table id="tree" class="layui-table" lay-filter="tree"></table>
+            </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.submit></@form.submit>
+        </@form.item>
+    </@form.form>
+</@main.layout>
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/dtree.css">
+<link rel="stylesheet" href="${basePath}/admin/layui/layui_ext/dtree/font/dtreefont.css">
+<script src="${basePath}/admin/jquery/jquery.js"></script>
+<script src="${basePath}/admin/layui/layui.js" ></script>
+<script src="${basePath}/admin/js/core.js"></script>
+<script>
+    <#if data.backend?string("1","0")=="1">
+        $(".supper").hide();
+    </#if>
+    // form
+    LayUtil.form.init(function (inner, form) {
+        inner.verify();
+        inner.submit(function (data) {
+
+        });
+        inner.radio("backendFilter",function (obj) {
+            (obj.value === "1")?$(".backend").hide():$(".backend").show();
+        });
+        return true;
+    });
+</script>
+
+
+

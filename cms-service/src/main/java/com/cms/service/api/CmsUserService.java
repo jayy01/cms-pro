@@ -1,8 +1,8 @@
 package com.cms.service.api;
 
+import com.cms.core.foundation.BasePage;
 import com.cms.core.foundation.BaseService;
 import com.cms.service.dto.CmsUserDto;
-import com.cms.service.dto.CmsUserPrimaryDto;
 
 /**
  * @Author jayy
@@ -17,5 +17,12 @@ public interface CmsUserService extends BaseService<CmsUserDto,Integer> {
      * @return
      */
     CmsUserDto selectByUsername(String username);
+
+    /**
+     * 获取所有数据 分页
+     * @param cmsUserDto
+     * @return
+     */
+    BasePage<CmsUserDto> getPage(CmsUserDto cmsUserDto) ;
 
 }

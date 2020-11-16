@@ -1,10 +1,8 @@
 package com.cms.portal.security.realm;
 
 import com.cms.dao.enums.UserStatusEnum;
-import com.cms.service.api.CmsUserPrimartService;
 import com.cms.service.api.CmsUserService;
 import com.cms.service.dto.CmsUserDto;
-import com.cms.service.dto.CmsUserPrimaryDto;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -24,8 +22,6 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
 
     @Autowired
     CmsUserService cmsUserService;
-    @Autowired
-    CmsUserPrimartService cmsUserPrimartService;
 
     /**
      * 登录信息
@@ -47,26 +43,28 @@ public class UsernamePasswordCaptchaRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         // 获取用户名
         String username = (String) authenticationToken.getPrincipal();
-        //String password = (String) authenticationToken.getCredentials();
-        // 副表中查找用户是否存在
+        // 获取密码
+        //Object credentials = authenticationToken.getCredentials();
+        // 查找用户是否存在
         CmsUserDto cmsUserDto = cmsUserService.selectByUsername(username);
         if(Objects.isNull(cmsUserDto)){
             throw new UnknownAccountException();
         }
         // 校验用户状态 是否禁用
-        verifyStatus(cmsUserDto.getStatus());
-        // 查询用户的主表信息  主表父表id相同通过id查询
-        CmsUserPrimaryDto cmsUserPrimaryDto = cmsUserPrimartService.getById(cmsUserDto.getId());
+        //verifyStatus(cmsUserDto.getStatus());
+        if(!cmsUserDto.getStatus()){
+            throw new DisabledAccountException("该账号已被禁用，请联系管理员");
+        }
         //比对密码
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(cmsUserDto, cmsUserPrimaryDto.getPassword(),
-                ByteSource.Util.bytes(cmsUserPrimaryDto.getSalt()), getName());
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(cmsUserDto, cmsUserDto.getPassword(),
+                ByteSource.Util.bytes(cmsUserDto.getSalt()), getName());
         // 清除认证信息
         super.clearCachedAuthenticationInfo(simpleAuthenticationInfo.getPrincipals());
         return simpleAuthenticationInfo;
     }
 
     /**
-     * 验证用户状态
+     * 验证用户状态 弃用
      */
     private void verifyStatus(UserStatusEnum userStatusEnum){
         if(UserStatusEnum.DISABLED.equals(userStatusEnum)){

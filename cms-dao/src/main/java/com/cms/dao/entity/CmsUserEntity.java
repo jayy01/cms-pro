@@ -1,11 +1,10 @@
 package com.cms.dao.entity;
 
 import com.cms.core.foundation.BaseEntity;
-import com.cms.dao.enums.UserStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @Author jayy
@@ -17,8 +16,14 @@ import java.io.Serializable;
 @Setter
 public class CmsUserEntity extends BaseEntity<Integer> {
     private String username;
-    private Integer status;
-
-    private String lastLoginIp;
-    private String sessionId;
+    private String password;
+    private String salt;
+    private String email;
+    private Boolean backend;
+    private Boolean supper;
+    private LocalDateTime registerTime;
+    private String registerIp;
+    private Integer loginCount;
+    private Boolean status;
+    private Boolean delete;
 }

@@ -4,7 +4,7 @@
     <@form.form>
         <@form.item>
             <@form.twoline lable="用户名" required=true>
-                <input type="text" id="username" name="name"  lay-verify="required|username" class="layui-input" >
+                <input type="text" id="username" name="username"  lay-verify="required|username" class="layui-input" >
             </@form.twoline>
             <@form.twoline lable="密码">
                 <input type="password" id="password" name="password"  lay-verify="required|password" class="layui-input" >
@@ -76,7 +76,7 @@
         inner.radio("backendFilter",function (obj) {
             (obj.value === "0")?$(".supper").hide():$(".supper").show();
         });
-        return true;
+        form.render();
     });
 </script>
 

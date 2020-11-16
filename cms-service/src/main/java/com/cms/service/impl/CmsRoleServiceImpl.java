@@ -60,7 +60,7 @@ public class CmsRoleServiceImpl implements CmsRoleService {
             // 权限不为空时
             if(!CollectionUtils.isEmpty(permission)){
                 // 插入角色权限中间表
-                cmsRolePermissionMapper.batchInsert(permission,1);
+                cmsRolePermissionMapper.batchInsert(permission,dto.getId());
             }
         }
     }
@@ -73,6 +73,11 @@ public class CmsRoleServiceImpl implements CmsRoleService {
     @Override
     public List<CmsRoleDto> getList(CmsRoleDto cmsRoleDto) {
         return CmsRoleConverter.CONVERTER.entityToDto(cmsRoleMapper.select(CmsRoleConverter.CONVERTER.dtoToEntity(cmsRoleDto)));
+    }
+
+    @Override
+    public List<String> getRoleActionsByUserId(Integer userId) {
+        return cmsRoleMapper.selectRoleActionsByUserId(userId);
     }
 
     @Override

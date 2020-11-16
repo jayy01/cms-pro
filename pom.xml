@@ -154,6 +154,23 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.2.3</version>
         </dependency>
+        <!-- shiro-freemarker tag 排除shiro与freemarker依赖-->
+        <dependency>
+            <groupId>net.mingsoft</groupId>
+            <artifactId>shiro-freemarker-tags</artifactId>
+            <version>1.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.shiro</groupId>
+                    <artifactId>shiro-all</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.freemarker</groupId>
+                    <artifactId>freemarker</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!--使用logback 注释log4j-->
         <!--<dependency>
             <groupId>log4j</groupId>
@@ -177,7 +194,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.30</version>
+            <version>1.2.75</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

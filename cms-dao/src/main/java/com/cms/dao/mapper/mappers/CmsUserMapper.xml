@@ -30,20 +30,35 @@
         create_time
     </sql>
     <sql id="value">
-        username,
-        password,
-        salt,
-        email,
-        is_backend,
-        is_supper,
-        register_time,
-        register_ip,
-        status,
-        create_time
+        #{username},
+        #{password},
+        #{salt},
+        #{email},
+        #{backend},
+        #{supper},
+        #{registerTime},
+        #{registerIp},
+        #{status},
+        #{createTime}
     </sql>
 
     <sql id="updateField">
         update_time = #{updateTime},
+        <if test="username!=null and username!=''">
+            username = #{username},
+        </if>
+        <if test="password!=null and password!=''">
+            password = #{password},
+        </if>
+        <if test="salt!=null and salt!=''">
+            salt = #{salt},
+        </if>
+        email = #{email},
+        is_backend = #{backend},
+        is_supper = #{supper},
+        <if test="status!=null and status!=''">
+            status = #{status},
+        </if>
     </sql>
     
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsUserEntity">
@@ -62,7 +77,6 @@
         <result property="status" column="status"/>
     </resultMap>
 
-
     <update id="update">
         update cms_user
         <trim prefix="set" suffixOverrides=",">
@@ -76,6 +90,11 @@
         where username = #{username} and is_delete = 0
     </select>
 
+    <select id="selectByEmail" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user
+        where email = #{email} and is_delete = 0
+    </select>
+
     <select id="selectAll" resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_user
         where is_delete = 0
@@ -84,12 +103,22 @@
         </if>
     </select>
 
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_user
+        where is_delete = 0 and id = #{id}
+    </select>
 
-    <insert id="save">
-        <selectKey resultType="java.lang.Integer" keyProperty="id" keyColumn="id" order="AFTER" >
-            select LAST_INSERT_ID()
-        </selectKey>
-        insert into <include refid="key"/> values  (<include refid="value"/>)
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into cms_user (<include refid="key"/>) values  (<include refid="value"/>)
     </insert>
+
+    <update id="updateLoginCount">
+        update cms_user set login_count = login_count + 1 where id = #{id}
+    </update>
+
+    <delete id="deleteById" >
+        delete from cms_user where id = #{id}
+    </delete>
 
 </mapper>

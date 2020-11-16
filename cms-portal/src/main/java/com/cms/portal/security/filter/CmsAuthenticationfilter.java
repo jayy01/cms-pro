@@ -91,12 +91,6 @@ public class CmsAuthenticationfilter extends FormAuthenticationFilter {
         } catch (DisabledAccountException e){
             writer.write(JSON.toJSONString(Result.failed(e.getMessage())));
         } catch (Exception e){
-            // 用户可能登录成功  其它错误
-            /*if(subject.isAuthenticated()){
-                writer.write(JSON.toJSONString(Result.success("登录成功")));
-            } else {
-                writer.write(JSON.toJSONString(Result.failed(ConstantPool.EXCEPTION_NETWORK_ERROR)));
-            }*/
             // 使用三元表达式
             writer.write(JSON.toJSONString((subject.isAuthenticated()?Result.success("登录成功"):Result.failed(ConstantPool.EXCEPTION_NETWORK_ERROR))));
         } finally {
@@ -122,7 +116,7 @@ public class CmsAuthenticationfilter extends FormAuthenticationFilter {
         threadPoolTaskExecutor.execute(()->{
             CmsUserDto cmsUserDto = (CmsUserDto) subject.getPrincipal();
             //不重要  未实现事务
-            cmsUserService.update(cmsUserDto);
+            cmsUserService.updateLoginCount(cmsUserDto.getId());
             //记录日志
             cmsLogService.save(CmsLogDto.of(cmsUserDto.getId(),cmsUserDto.getUsername(),ip,url,"后台系统登录"));
         });

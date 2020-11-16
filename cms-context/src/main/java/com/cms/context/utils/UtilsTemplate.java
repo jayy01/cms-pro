@@ -29,7 +29,16 @@ public class UtilsTemplate {
         return "admin/"+dir+"/"+template;
     }
 
+    /**
+     * 前台模板方法
+     * @param template 模板名称
+     * @return
+     */
     public static String fontTemplate(String template){
-        return "font/" + template;
+        return "font/default/" + template;
+    }
+
+    public static String fontTemplate(String dir,String template){
+        return "font/"+dir+"/"+template;
     }
 }

@@ -3,7 +3,7 @@
 <@main.layout>
     <@form.form>
         <@form.headSearch>
-            <@form.inline lable="用户名">
+            <@form.inline lable="名称">
                 <input type="text" name="name" class="layui-input" >
             </@form.inline>
         </@form.headSearch>
@@ -28,18 +28,12 @@
 <script>
 
     LayUtil.dataGrid.init({
-        url: '${adminPath}/admin/page.do', //数据接口
+        url: '${adminPath}/friendLink/page.do', //数据接口
         cols: [[ //表头
             {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
-            {field: 'username', title: '用户名 ', width:120},
-            {field: 'email', title: '邮箱', width:200, sort: true},
-            {field: 'backend', title: '是否后台管理员', width:150,templet: function (data) {
-                    return data.backend?"是":"否";
-                }},
-            {field: 'registerTime', title: '注册时间', width:180},
-            {field: 'status', title: '用户状态', width:120,templet:function (data) {
-                    return data.status?"启用":"禁用";
-                }},
+            {field: 'name', title: '名称 ', width:200},
+            {field: 'url', title: '链接地址', width:300},
+            {field: 'priority', title: '排序', width:100, sort: true},
             {templet: '#rightTemplate',align: 'center',title:'操作'}
         ]],
         toolbar: "#toolbar"

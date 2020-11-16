@@ -87,7 +87,9 @@
         <url-pattern>/admin/cms/*</url-pattern>
     </servlet-mapping>
 
-
+    <welcome-file-list>
+        <welcome-file>index.shtml</welcome-file>
+    </welcome-file-list>
 
 
 

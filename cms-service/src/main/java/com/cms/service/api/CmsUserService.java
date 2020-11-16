@@ -19,10 +19,22 @@ public interface CmsUserService extends BaseService<CmsUserDto,Integer> {
     CmsUserDto selectByUsername(String username);
 
     /**
+     * 根据邮箱查找用户
+     * @param email
+     * @return
+     */
+    CmsUserDto getByEmail(String email);
+    /**
      * 获取所有数据 分页
      * @param cmsUserDto
      * @return
      */
     BasePage<CmsUserDto> getPage(CmsUserDto cmsUserDto) ;
+
+    /**
+     * 根据id更新登陆次数
+     * @param id
+     */
+    void updateLoginCount(Integer id);
 
 }

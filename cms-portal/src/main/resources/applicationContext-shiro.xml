@@ -12,7 +12,7 @@
                 <!--配置加密方式-->
                 <property name="hashAlgorithmName" value="SHA-256"/>
                 <!--散列迭代此时-->
-                <property name="hashIterations" value="1024"/>
+                <property name="hashIterations" value="${shiro.hash.iterations}"/>
                 <!--表示是否存储散列后的密码为16进制 需要和生成密码时的一样 默认base64-->
                 <!--需要注意此处算法需要和生成密码的算法一致-->
                 <property name="storedCredentialsHexEncoded" value="true"/>

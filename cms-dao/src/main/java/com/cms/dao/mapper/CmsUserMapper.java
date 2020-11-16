@@ -26,4 +26,17 @@ public interface CmsUserMapper extends BaseMapper<CmsUserEntity,Integer> {
      * @return
      */
     List<CmsUserEntity> selectAll(SearchProvider searchProvider);
+
+    /**
+     * 根据id更新登陆次数
+     * @param id
+     */
+    void updateLoginCount(Integer id);
+
+    /**
+     * 根据邮箱查找
+     * @param email
+     * @return
+     */
+    CmsUserEntity selectByEmail(String email);
 }

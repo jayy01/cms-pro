@@ -29,4 +29,6 @@ public class CmsUserDto extends BaseDto<Integer> {
     private Boolean status;
     private Boolean delete;
 
+    private Integer roleId;
+
 }

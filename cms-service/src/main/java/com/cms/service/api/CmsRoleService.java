@@ -18,4 +18,10 @@ public interface CmsRoleService extends BaseService<CmsRoleDto,Integer> {
      */
     List<CmsRoleDto> getList(CmsRoleDto cmsRoleDto);
 
+    /**
+     * 根据 用户id查询action列表
+     * @param userId
+     * @return
+     */
+    List<String> getRoleActionsByUserId(Integer userId);
 }

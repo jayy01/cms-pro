@@ -32,7 +32,15 @@
                 <prop key="default_encoding">UTF-8</prop>
             </props>
         </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="shiro" value-ref="shiroTags"/>
+            </map>
+        </property>
     </bean>
+    <!--shiro freemarker标签-->
+    <bean id="shiroTags" class="com.jagregory.shiro.freemarker.ShiroTags"/>
+
     <!--hibernate的validator-->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <!--校验器-->

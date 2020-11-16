@@ -14,14 +14,14 @@
         <@form.item>
             <@form.twoline lable="拥有所有权限">
                 <#if data.all?string("1","0")=="1">
-                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="1" title="是" checked>
-                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="0" title="否"  >
+                    <input type="radio"  name="all" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="1" title="是" checked>
+                    <input type="radio"  name="all" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="0" title="否"  >
                 <#else>
-                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="1" title="是" >
-                    <input type="radio"  name="all" lay-verify="" class="layui-input" value="0" title="否" checked >
+                    <input type="radio"  name="all" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="1" title="是" >
+                    <input type="radio"  name="all" lay-verify="" lay-filter="permissionFilter" class="layui-input" value="0" title="否" checked >
                 </#if>
             </@form.twoline>
-            <@form.twoline lable="是否禁用">
+            <@form.twoline lable="是否禁用" >
                 <#if data.status?string("1","0")=="1">
                     <input type="radio"  name="status" lay-verify="" class="layui-input" value="1" title="禁用" checked>
                     <input type="radio"  name="status" lay-verify="" class="layui-input" value="0" title="启用" >
@@ -32,7 +32,7 @@
             </@form.twoline>
         </@form.item>
         <@form.item>
-            <@form.twoline lable="权限">
+            <@form.twoline lable="权限" class="permission">
                 <table id="tree" class="layui-table" lay-filter="tree"></table>
             </@form.twoline>
         </@form.item>

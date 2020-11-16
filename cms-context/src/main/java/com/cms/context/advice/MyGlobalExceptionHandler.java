@@ -5,6 +5,8 @@ import com.cms.context.foundation.Result;
 import com.cms.context.utils.UtilsHttp;
 import com.cms.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,6 +53,17 @@ public class MyGlobalExceptionHandler {
     }
 
     /**
+     * 没有权限报错
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseBody
+    public Result<String> unauthorizedException(UnauthorizedException e){
+        return Result.failed("没有权限访问");
+    }
+
+    /**
      *  运行时异常拦截处理
      * @param e  运行时异常
      * @return
@@ -60,4 +73,5 @@ public class MyGlobalExceptionHandler {
     public Result runtimeExceptionException(RuntimeException e){
         return Result.failed(e.getMessage());
     }
+
 }

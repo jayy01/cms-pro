@@ -27,4 +27,10 @@ public interface CmsRoleMapper extends BaseMapper<CmsRoleEntity,Integer> {
      */
     List<CmsRoleEntity> selectByPage(SearchProvider searchProvider);
 
+    /**
+     * 根据用户id查询actions
+     * @param userId
+     * @return
+     */
+    List<String> selectRoleActionsByUserId(Integer userId);
 }

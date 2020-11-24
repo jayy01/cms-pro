@@ -1,5 +1,32 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8" />
+    <title>前台展示页面</title>
+</head>
 <body>
-<h2>Hello World!</h2>
+<div class="footer">
+    <div class="menu">
+        <a href="###">企业简介</a>
+        <a href="###">企业文化</a>
+        <a href="###">组织机构</a>
+        <a href="###">发展历程</a>
+        <a href="###">企业荣誉</a>
+        <a href="###">诚聘英才</a>
+        <a href="###">联系我们</a>
+    </div>
+    <div class="friendLink">
+        <ul>
+            [@cms_friend_link_directive]
+                [#list result as item]
+                    <li><a href="###">${item.name}</a></li>
+                [/#list]
+            [/@cms_friend_link_directive]
+        </ul>
+    </div>
+    <div class="copyright">
+        <p >Copyright &copy; 2020.Company name All rights reserved</p>
+    </div>
+</div>
 </body>
 </html>

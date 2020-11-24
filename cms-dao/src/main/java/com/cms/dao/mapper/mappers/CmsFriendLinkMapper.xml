@@ -20,7 +20,7 @@
     <select id="selectBySearchProvider" resultMap="baseResultMap">
         select <include refid="baseColumn"/> from cms_friend_link where 1 = 1
         <if test="criteria.name!=null and criteria.name!=''">
-            and name like contact('%',contact(#{criteria.name}),'%')
+            and name like concat('%',concat(#{criteria.name}),'%')
         </if>
     </select>
 

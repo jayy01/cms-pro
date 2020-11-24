@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  */
 @Controller
 @RequestMapping("friendLink")
-public class CmsFriendLinkController {
+public class FriendLinkController {
 
     @Autowired
     CmsFriendLinkService cmsFriendLinkService;

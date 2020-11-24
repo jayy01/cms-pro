@@ -58,4 +58,9 @@ public class CmsFriendLinkServiceImpl implements CmsFriendLinkService {
 
         return new BasePage<CmsFriendLinkDto>(page.getTotal(),CmsFriendLinkConverter.CONVERTER.entityToDto(page.getResult()));
     }
+
+    @Override
+    public List<CmsFriendLinkDto> getList() {
+        return CmsFriendLinkConverter.CONVERTER.entityToDto(cmsFriendLinkMapper.selectBySearchProvider(SearchProvider.of(new CmsFriendLinkEntity())));
+    }
 }

@@ -1,6 +1,7 @@
 package com.cms.dao.enums.converter;
 
 import com.cms.core.foundation.BaseEnum;
+import com.cms.dao.enums.StaticSuffixEnum;
 import com.cms.dao.enums.UserStatusEnum;
 
 import java.util.Objects;
@@ -19,6 +20,14 @@ public class EnumConverter {
      */
     public static UserStatusEnum toUserStatusEnum (int status){
         return (UserStatusEnum)converter(UserStatusEnum.values(), status);
+    }
+    /**
+     * 用于将entity中int类型转换为StaticSuffixEnum枚举类型
+     * @param status
+     * @return
+     */
+    public static StaticSuffixEnum toStaticSuffixEnum (int status){
+        return (StaticSuffixEnum)converter(StaticSuffixEnum.values(), status);
     }
 
     /**

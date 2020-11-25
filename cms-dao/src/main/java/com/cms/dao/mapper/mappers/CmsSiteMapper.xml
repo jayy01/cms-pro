@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cms.dao.mapper.CmsSiteMapper">
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+    <!--<cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>-->
     <sql id="baseColumn">
         id,
         site_name,
         keywords,
-        description
+        description,
+        static_dir,
+        static_suffix,
+        is_static_index
     </sql>
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
         <id property="id" column="id"/>
         <result property="description" column="description"/>
         <result property="keywords" column="keywords"/>
         <result property="siteName" column="site_name"/>
+        <result property="staticDir" column="static_dir"/>
+        <result property="staticSuffix" column="static_suffix"/>
+        <result property="staticIndex" column="is_static_index"/>
     </resultMap>
     <select id="selectById" useCache="true" resultMap="baseResultMap">
         select <include refid="baseColumn"></include>
@@ -23,11 +29,17 @@
         insert into cms_site(
         create_time,
         keywords,
-        description
+        description,
+        static_dir,
+        static_suffix,
+        is_static_index
         ) values (
         #{createTime},
         #{keywords},
-        #{description})
+        #{description},
+        #{staticDir},
+        #{staticSuffix},
+        #{staticIndex})
     </insert>
     <sql id="updateField">
         update_time = #{updateTime},
@@ -40,6 +52,15 @@
         <if test="description!=null and description!=''">
             description = #{description},
         </if>
+        <if test="staticDir!=null and staticDir!=''">
+            static_dir = #{staticDir},
+        </if>
+        <if test="staticSuffix!=null">
+            static_suffix = #{staticSuffix},
+        </if>
+        <if test="staticIndex!=null">
+            is_static_index = #{staticIndex},
+        </if>
     </sql>
     <update id="update" flushCache="true">
         update cms_site
@@ -48,5 +69,4 @@
         </trim>
         where id = #{id}
     </update>
-
 </mapper>

@@ -54,6 +54,20 @@
         <input type="radio" name="${name}" title="${item[itemLable]}" value="${item[itemValue]}" <#if value=="${item[itemValue]}">checked</#if>>
     </#list>
 </#macro>
+<#--select选择框-->
+<#macro select name list layFilter="" class="" itemLable="" itemValue="" value="" required=false enum=false>
+    <select name="${name}" lay-filter="${layFilter}">
+        <#if enum>
+            <#list list as item>
+                <option value="${item.getOrdinal()}" >${item.label}</option>
+            </#list>
+        <#else >
+            <#list list as item>
+                <option value="${item[itemValue]}">${item[itemLable]}</option>
+            </#list>
+        </#if>
+    </select>
+</#macro>
 <#--表头查询-->
 <#macro headSearch>
     <#nested >

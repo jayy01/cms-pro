@@ -4,18 +4,33 @@
     <@form.form>
         <input type="hidden" name="id" value="${data.id!""}">
         <@form.item>
-            <@form.aline lable="站点名称" >
+            <@form.twoline lable="站点名称" >
                 <input type="text" name="siteName" class="layui-input" value="${data.siteName!""}">
-            </@form.aline>
+            </@form.twoline>
+            <@form.twoline lable="关键字" >
+                <input type="text" name="keywords" class="layui-input" value="${data.keywords!""}">
+            </@form.twoline>
         </@form.item>
         <@form.item>
-            <@form.aline lable="关键字" >
-                <input type="text" name="keywords" class="layui-input" value="${data.keywords!""}">
-            </@form.aline>
+            <@form.twoline lable="静态页存放目录" >
+                <input type="text" name="staticDir" class="layui-input" value="${data.staticDir!""}">
+            </@form.twoline>
+            <@form.twoline lable="静态页后缀" >
+                <@form.select name="staticSuffix" list=selectList enum=true></@form.select>
+            </@form.twoline>
+            <@form.twoline lable="是否静态化首页" >
+                <#if data.staticIndex?string("1","0")=="1">
+                    <input type="radio"  name="staticIndex" lay-verify="" class="layui-input" value="1" title="是" checked>
+                    <input type="radio"  name="staticIndex" lay-verify="" class="layui-input" value="0" title="否" >
+                <#else >
+                    <input type="radio"  name="staticIndex" lay-verify="" class="layui-input" value="1" title="是" >
+                    <input type="radio"  name="staticIndex" lay-verify="" class="layui-input" value="0" title="否" checked>
+                </#if>
+            </@form.twoline>
         </@form.item>
         <@form.item>
             <@form.aline lable="站点描述">
-                <textarea name="description"  class="layui-textarea">${data.description!""}</textarea>
+                <textarea name="description"  class="layui-textarea" style="width: 95%">${data.description!""}</textarea>
             </@form.aline>
         </@form.item>
         <@form.item>

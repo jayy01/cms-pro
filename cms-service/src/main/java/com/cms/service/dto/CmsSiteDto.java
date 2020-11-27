@@ -23,4 +23,5 @@ public class CmsSiteDto extends BaseDto<Integer> {
     private String staticDir;
     private StaticSuffixEnum staticSuffix;
     private Boolean staticIndex;
+    private String tmplPath;
 }

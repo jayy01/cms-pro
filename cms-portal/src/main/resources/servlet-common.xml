@@ -10,13 +10,22 @@
     <!--<mvc:annotation-driven/>-->
 
     <!--配置映射器与适配器-->
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <!--配置json转换器-->
         <mvc:message-converters>
             <ref bean="fastJsonHttpMessageConverter"/>
             <ref bean="stringHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    <!--枚举转换spring类型体系的核心接口 定义converterFactory-->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="com.cms.context.converter.StringToEnumConverterFactory"/>
+            </list>
+        </property>
+    </bean>
+
     <!--freemarker视图解析器-->
     <bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="suffix" value=".html"/>

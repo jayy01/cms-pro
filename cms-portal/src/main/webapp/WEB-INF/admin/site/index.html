@@ -16,7 +16,7 @@
                 <input type="text" name="staticDir" class="layui-input" value="${data.staticDir!""}">
             </@form.twoline>
             <@form.twoline lable="静态页后缀" >
-                <@form.select name="staticSuffix" list=selectList enum=true></@form.select>
+                <@form.select name="staticSuffix" list=selectList enum=true value="${data.staticSuffix!''}"></@form.select>
             </@form.twoline>
             <@form.twoline lable="是否静态化首页" >
                 <#if data.staticIndex?string("1","0")=="1">
@@ -27,6 +27,11 @@
                     <input type="radio"  name="staticIndex" lay-verify="" class="layui-input" value="0" title="否" checked>
                 </#if>
             </@form.twoline>
+        </@form.item>
+        <@form.item>
+            <@form.aline lable="模板路径" >
+                <@form.select name="tmplPath" list=tmplPath value="${data.tmplPath!''}" ></@form.select>
+            </@form.aline>
         </@form.item>
         <@form.item>
             <@form.aline lable="站点描述">
@@ -47,7 +52,8 @@
             core.http({
                 url:"${adminPath}/site/edit.do",
                 data:data.field,
-                load:false
+                load:false,
+                goBack: false
             },function (res) {
                 switch (res.restCode) {
                     case CONSTANT.HTTP.SUCCESS:

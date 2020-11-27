@@ -5,9 +5,12 @@ import com.cms.context.foundation.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -84,6 +87,15 @@ public class UtilsHttp {
     public static HttpServletRequest getRequest(){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return requestAttributes.getRequest();
+    }
+
+    /**
+     * 获取springmvc的web容器
+     * @param request
+     * @return
+     */
+    public static WebApplicationContext getWebApplicationContext(ServletRequest request){
+        return ((WebApplicationContext) request.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE));
     }
 
     /**

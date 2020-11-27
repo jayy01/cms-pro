@@ -1,6 +1,7 @@
 package com.cms.portal.controller.admin;
 
 import com.cms.context.foundation.Result;
+import com.cms.context.utils.UtilsServletContext;
 import com.cms.context.utils.UtilsTemplate;
 import com.cms.core.annotation.DoLog;
 import com.cms.core.annotation.DoValid;
@@ -30,6 +31,8 @@ public class SiteController {
 
     @Autowired
     CmsSiteService cmsSiteService;
+    @Autowired
+    UtilsServletContext servletContext;
 
     /**
      * 去站点设置
@@ -40,6 +43,7 @@ public class SiteController {
     public String toIndex(Model model) {
         model.addAttribute("selectList", StaticSuffixEnum.values());
         model.addAttribute("data", cmsSiteService.getById(1));
+        model.addAttribute("tmplPath",servletContext.getTmplPathList("index","index"));
         return UtilsTemplate.adminTemplate("site", "index");
     }
 

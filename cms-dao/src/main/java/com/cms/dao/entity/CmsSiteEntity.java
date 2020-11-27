@@ -20,5 +20,6 @@ public class CmsSiteEntity extends BaseEntity<Integer> {
     private String staticDir;
     private Integer staticSuffix;
     private Boolean staticIndex;
+    private String tmplPath;
 
 }

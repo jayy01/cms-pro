@@ -38,7 +38,13 @@ public class UtilsTemplate {
         return "font/default/" + template;
     }
 
+    /**
+     * 前提模板方法
+     * @param dir 文件夹
+     * @param template 模板名称
+     * @return
+     */
     public static String fontTemplate(String dir,String template){
-        return "font/"+dir+"/"+template;
+        return "font/default/"+dir+"/"+template;
     }
 }

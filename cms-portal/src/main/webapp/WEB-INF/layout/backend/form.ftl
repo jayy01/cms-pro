@@ -57,14 +57,21 @@
 <#--select选择框-->
 <#macro select name list layFilter="" class="" itemLable="" itemValue="" value="" required=false enum=false>
     <select name="${name}" lay-filter="${layFilter}">
+        <option>请选择</option>
         <#if enum>
             <#list list as item>
-                <option value="${item.getOrdinal()}" >${item.label}</option>
+                <option value="${item.getOrdinal()}" <#if value==item>selected = "selected"</#if> >${item.label}</option>
             </#list>
         <#else >
-            <#list list as item>
-                <option value="${item[itemValue]}">${item[itemLable]}</option>
-            </#list>
+            <#if itemLable=="" && itemValue=="">
+                <#list list as item>
+                    <option value="${item}" <#if value=="${item}">selected = "selected"</#if>>${item}</option>
+                </#list>
+            <#else >
+                <#list list as item>
+                    <option value="${item[itemValue]}">${item[itemLable]}</option>
+                </#list>
+            </#if>
         </#if>
     </select>
 </#macro>

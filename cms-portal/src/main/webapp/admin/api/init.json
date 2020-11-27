@@ -70,6 +70,20 @@
               "href": "friendLink/index.do",
               "icon": "fa fa-list-alt",
               "target": "_self"
+            },
+            {
+              "title": "页面静态化",
+              "href": "",
+              "icon": "fa fa-list-alt",
+              "target": "_self",
+              "child": [
+                {
+                  "title": "首页静态化",
+                  "href": "static/index.do",
+                  "icon": "fa fa-list-alt",
+                  "target": "_self"
+                }
+              ]
             }
           ]
         },

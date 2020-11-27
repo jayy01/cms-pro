@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum StaticSuffixEnum implements BaseEnum {
 
     SHTML(0,"shtml"),
-    FTL(1,"ftl");
+    HTML(1,"html");
 
     private int ordinal;
     private String label;

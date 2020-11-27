@@ -9,7 +9,8 @@
         description,
         static_dir,
         static_suffix,
-        is_static_index
+        is_static_index,
+        tmpl_path
     </sql>
     <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsSiteEntity">
         <id property="id" column="id"/>
@@ -19,6 +20,7 @@
         <result property="staticDir" column="static_dir"/>
         <result property="staticSuffix" column="static_suffix"/>
         <result property="staticIndex" column="is_static_index"/>
+        <result property="tmplPath" column="tmpl_path"/>
     </resultMap>
     <select id="selectById" useCache="true" resultMap="baseResultMap">
         select <include refid="baseColumn"></include>
@@ -32,14 +34,16 @@
         description,
         static_dir,
         static_suffix,
-        is_static_index
+        is_static_index,
+        tmpl_path
         ) values (
         #{createTime},
         #{keywords},
         #{description},
         #{staticDir},
         #{staticSuffix},
-        #{staticIndex})
+        #{staticIndex},
+        #{tmplPath})
     </insert>
     <sql id="updateField">
         update_time = #{updateTime},
@@ -60,6 +64,9 @@
         </if>
         <if test="staticIndex!=null">
             is_static_index = #{staticIndex},
+        </if>
+        <if test="tmplPath!=null and tmplPath!=''">
+            tmpl_path = #{tmplPath},
         </if>
     </sql>
     <update id="update" flushCache="true">

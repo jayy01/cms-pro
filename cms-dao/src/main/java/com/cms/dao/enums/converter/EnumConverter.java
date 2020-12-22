@@ -1,8 +1,7 @@
 package com.cms.dao.enums.converter;
 
 import com.cms.core.foundation.BaseEnum;
-import com.cms.dao.enums.StaticSuffixEnum;
-import com.cms.dao.enums.UserStatusEnum;
+import com.cms.dao.enums.*;
 
 import java.util.Objects;
 
@@ -28,6 +27,30 @@ public class EnumConverter {
      */
     public static StaticSuffixEnum toStaticSuffixEnum (int status){
         return (StaticSuffixEnum)converter(StaticSuffixEnum.values(), status);
+    }
+    /**
+     * 用于将entity中int类型转换为TaskExecutionCycleEnum枚举类型
+     * @param status
+     * @return
+     */
+    public static TaskExecutionCycleEnum toTaskExecutionCycleEnum (int status){
+        return (TaskExecutionCycleEnum)converter(TaskExecutionCycleEnum.values(), status);
+    }
+    /**
+     * 用于将entity中int类型转换为TaskIntervalUnitEnum枚举类型
+     * @param status
+     * @return
+     */
+    public static TaskIntervalUnitEnum toTaskIntervalUnitEnum (int status){
+        return (TaskIntervalUnitEnum)converter(TaskIntervalUnitEnum.values(), status);
+    }
+    /**
+     * 用于将entity中int类型转换为StaticSuffixEnum枚举类型
+     * @param status
+     * @return
+     */
+    public static TaskTypeEnum toTaskTypeEnum (int status){
+        return (TaskTypeEnum)converter(TaskTypeEnum.values(), status);
     }
 
     /**

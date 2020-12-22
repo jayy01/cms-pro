@@ -319,6 +319,10 @@ LayUtil.prototype = {
             // radio 事件监听
             radio: function (name,callback) {
                 this.submit(callback,name,"radio");
+            },
+            // select 事件监听
+            select:function (name, callback) {
+                this.submit(callback,name,"select");
             }
         }
         LayUtil.form = new Inner();

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cms.dao.mapper.CmsTaskMapper">
+
+    <sql id="baseColumn">
+        id,
+        name,
+        code,
+        type,
+        execution_cycle,
+        day_of_month,
+        day_of_week,
+        hour,
+        minute,
+        interval_hour,
+        interval_minute,
+        cron_expression,
+        is_enable,
+        interval_unit,
+        remark
+    </sql>
+
+    <resultMap id="baseResultMap" type="com.cms.dao.entity.CmsTaskEntity">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="type" column="type"/>
+        <result property="executionCycle" column="execution_cycle"/>
+        <result property="dayOfMonth" column="day_of_month"/>
+        <result property="dayOfWeek" column="day_of_week"/>
+        <result property="hour" column="hour"/>
+        <result property="minute" column="minute"/>
+        <result property="intervalHour" column="interval_hour"/>
+        <result property="intervalMinute" column="interval_minute"/>
+        <result property="cornExpression" column="cron_expression"/>
+        <result property="enable" column="is_enable"/>
+        <result property="intervalUnit" column="interval_unit"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+
+
+    <select id="selectBySearchProvider" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_task where 1 = 1
+        <if test="criteria.name!=null and criteria.name!=''">
+            and name like concat('%',concat(#{criteria.name}),'%')
+        </if>
+    </select>
+
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumn"/> from cms_task where id = #{id}
+    </select>
+
+    <sql id="key">
+        create_time,
+        name,
+        code,
+        type,
+        execution_cycle,
+        day_of_month,
+        day_of_week,
+        hour,
+        minute,
+        interval_hour,
+        interval_minute,
+        cron_expression,
+        is_enable,
+        interval_unit,
+        remark
+    </sql>
+
+    <sql id="value">
+        #{createTime},
+        #{name},
+        #{code},
+        #{type},
+        #{executionCycle},
+        #{dayOfMonth},
+        #{dayOfWeek},
+        #{hour},
+        #{minute},
+        #{intervalHour},
+        #{intervalMinute},
+        #{cronExpression},
+        #{enable},
+        #{intervalUnit},
+        #{remark}
+    </sql>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into cms_task (<include refid="key"/>) values (<include refid="value"/>);
+    </insert>
+
+    <sql id="updateField">
+        update_time = #{updateTime},
+        name = #{name},
+        code = #{code},
+        type = #{type},
+        execution_cycle = #{executionCycle},
+        day_of_month = #{dayOfMonth},
+        day_of_week = #{dayOfWeek},
+        hour = #{hour},
+        minute = #{minute},
+        interval_hour = #{intervalHour},
+        interval_minute = #{intervalMinute},
+        cron_expression = #{cronExpression},
+        is_enable = #{enable},
+        interval_unit = #{intervalUnit},
+        remark = #{remark}
+    </sql>
+
+    <update id="update" >
+        update cms_task
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="updateField"/>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from cms_task where id = #{id}
+    </delete>
+
+</mapper>

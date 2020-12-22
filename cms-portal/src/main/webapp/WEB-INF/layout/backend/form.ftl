@@ -20,8 +20,8 @@
     </div>
 </#macro>
 <#--form表单中的一行两列-->
-<#macro twoline lable="" class="" required=false>
-    <div class="layui-inline ${class} " >
+<#macro twoline lable="" class="" required=false inlineStyle="">
+    <div class="layui-inline ${class} " style="${inlineStyle}">
         <label class="cms-form-label <#if required>cms-required</#if>">${lable}</label>
         <div class="layui-input-inline">
             <#nested >
@@ -29,10 +29,12 @@
     </div>
 </#macro>
 <#--form中一行一列-->
-<#macro aline lable="" required=false>
-    <label class="cms-form-label <#if required>cms-required</#if>">${lable}</label>
-    <div class="layui-input-block">
-        <#nested >
+<#macro aline lable="" class="" required=false inlineStyle="">
+    <div class="${class}" style="${inlineStyle}">
+        <label class="cms-form-label <#if required>cms-required</#if>">${lable}</label>
+        <div class="layui-input-block">
+            <#nested >
+        </div>
     </div>
 </#macro>
 <#--提交重置按钮-->
